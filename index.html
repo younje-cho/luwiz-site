@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>주식회사 루위즈</title>
-<meta name="description" content="흩어져 있는 재무 데이터를 한곳에. 연결결산·경영관리 리포팅·재무 데이터 구축.">
-<meta property="og:title" content="주식회사 루위즈">
-<meta property="og:description" content="흩어져 있는 재무 데이터를 한곳에 모아 정리합니다.">
+<title>주식회사 루위즈 — 연결결산 · 월 마감 도구</title>
+<!-- 아래 description 둘은 같은 문장이어야 해요. name= 은 검색엔진이, og: 는 카톡·슬랙 미리보기가 읽어요.
+     첫 화면(header) 둘째 줄과도 같은 말이에요 - 셋을 같이 고쳐요. -->
+<meta name="description" content="ERP는 전표까지죠. 그 뒤 결산과 보고서는 아직 엑셀이시죠? 엑셀을 그대로 올리면 맞는지 먼저 검증하고, 연결재무제표까지 만들어요.">
+<meta property="og:title" content="주식회사 루위즈 — 연결결산 · 월 마감 도구">
+<meta property="og:description" content="ERP는 전표까지죠. 그 뒤 결산과 보고서는 아직 엑셀이시죠? 엑셀을 그대로 올리면 맞는지 먼저 검증하고, 연결재무제표까지 만들어요.">
 <meta property="og:type" content="website">
 <link rel="icon" href="logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -26,57 +28,53 @@
     font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
     background:var(--bg); color:var(--ink);
     line-height:1.75; letter-spacing:-.01em;
-    font-weight:400;
   }
   .wrap{max-width:720px; margin:0 auto; padding:0 24px}
 
-  /* 머리 */
-  header{padding:60px 0 44px; text-align:center}
-  header img{height:94px; width:auto}
-  header h1{
-    margin-top:22px; font-size:19px; font-weight:600;
-    color:var(--navy); letter-spacing:.02em;
-  }
-  header p{
-    margin-top:16px; font-size:17px; color:var(--muted);
-    line-height:1.9;
-  }
+  .top{display:flex; align-items:center; gap:10px; padding:28px 0 0}
+  .top img{height:30px; width:auto}
+  .top span{font-size:14px; font-weight:600; color:var(--navy); letter-spacing:.02em}
+
+  header{padding:56px 0 48px}
+  header h1{font-size:32px; line-height:1.4; font-weight:700; color:var(--navy); letter-spacing:-.02em}
+  header p{margin-top:18px; font-size:17.5px; color:var(--muted); line-height:1.85}
   header p b{color:var(--ink); font-weight:600}
 
   hr{border:0; border-top:1px solid var(--line); margin:0}
 
-  section{padding:40px 0}
-  h2{
-    font-size:12px; font-weight:700; letter-spacing:.14em;
-    color:var(--gold); text-transform:uppercase; margin-bottom:20px;
-  }
+  section{padding:44px 0}
+  h2{font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--gold); margin-bottom:18px}
 
-  /* 하는 일 */
-  .work{display:grid; gap:14px}
-  .work article{
-    background:var(--card); border:1px solid var(--line);
-    border-radius:10px; padding:20px 24px;
-  }
-  .work h3{font-size:17px; font-weight:700; color:var(--navy); margin-bottom:8px}
-  .work p{font-size:15.5px; color:var(--muted)}
+  .fit{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .fit div{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; font-size:15.5px; font-weight:500}
 
-  /* 연락 */
-  .contact a{
-    display:block; font-size:19px; color:var(--navy);
-    text-decoration:none; font-weight:600; margin-bottom:10px;
-  }
+  .work{display:grid; gap:12px}
+  .work article{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 22px}
+  .work .tag{display:block; font-size:12.5px; color:var(--muted); margin-bottom:3px}
+  .work h3{font-size:17px; font-weight:700; color:var(--navy); margin-bottom:4px}
+  .work p{font-size:15px; color:var(--muted)}
+
+  .checks{list-style:none; display:grid; gap:8px}
+  .checks li{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 18px; font-size:15.5px; display:flex; gap:12px; align-items:baseline}
+  .checks li::before{content:"✓"; color:var(--gold); font-weight:700}
+
+  .faq{display:grid; gap:10px}
+  .faq div{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 20px}
+  .faq b{display:block; font-size:15.5px; color:var(--navy); margin-bottom:4px}
+  .faq p{font-size:15px; color:var(--muted)}
+
+  .contact a{display:block; font-size:19px; color:var(--navy); text-decoration:none; font-weight:600}
   .contact a:hover{color:var(--gold)}
 
-  footer{
-    padding:30px 0 52px; font-size:13.5px; color:var(--muted); line-height:2;
-  }
+  footer{padding:30px 0 52px; font-size:13.5px; color:var(--muted); line-height:2}
   footer strong{color:var(--ink); font-weight:600}
 
   @media (max-width:560px){
-    header{padding:44px 0 34px}
-    header img{height:80px}
-    section{padding:32px 0}
-    .contact a{font-size:17px}
+    header{padding:40px 0 36px}
+    header h1{font-size:25px}
+    header p{font-size:16px}
+    .fit{grid-template-columns:1fr}
+    section{padding:34px 0}
   }
 </style>
 </head>
@@ -84,14 +82,32 @@
 
 <div class="wrap">
 
-  <header>
+  <div class="top">
     <img src="logo.png" alt="루위즈">
-    <h1>주식회사 루위즈</h1>
+    <span>주식회사 루위즈</span>
+  </div>
+
+  <header>
+    <h1>ERP는 전표까지죠.<br>그 뒤 결산과 보고서는 아직 엑셀이시죠?</h1>
     <p>
-      흩어져 있는 재무 데이터를 <b>한곳에 모아 정리합니다.</b><br>
-      엑셀로 하던 일을 도구로 옮기고, 그 도구를 직접 만듭니다.
+      ERP에서 뽑은 엑셀도, 손으로 만든 엑셀도 그대로 올리면<br>
+      <b>맞는지 먼저 검증하고</b>, 연결재무제표까지 만들어요.<br>
+      숫자마다 어느 분개에서 왔는지 따라가요.<br>
+      월 마감 · 자금 · 사업부별 손익 · 보고서도 여기서 해요.
     </p>
   </header>
+
+  <hr>
+
+  <section>
+    <h2>이런 회사에 맞아요</h2>
+    <div class="fit">
+      <div>자회사 · 해외법인이 2곳 이상이에요</div>
+      <div>상장을 준비하고 있어요</div>
+      <div>ERP는 있는데 연결은 엑셀로 해요</div>
+      <div>월 마감 보고서를 매달 엑셀로 다시 만들어요</div>
+    </div>
+  </section>
 
   <hr>
 
@@ -99,17 +115,61 @@
     <h2>하는 일</h2>
     <div class="work">
       <article>
-        <h3>연결결산</h3>
-        <p>법인별 장부를 연결 재무제표로. 내부거래 제거·외화환산·미실현이익·비지배지분까지 한 흐름으로 정리합니다.</p>
+        <span class="tag">연결재무제표</span>
+        <h3>엑셀 시트가 너무 많아 숫자가 엉키지 않으세요?</h3>
+        <p>분개 한 줄부터 연결재무제표까지 한 줄로 이어져요. 버전이 남아요.</p>
       </article>
       <article>
-        <h3>경영관리 리포팅</h3>
-        <p>공장별·사업부별 손익과 월별 추이. 같은 분개장에서 보는 축만 바꿔 다시 구성합니다.</p>
+        <span class="tag">현금흐름표</span>
+        <h3>작성은 하는데 시간이 오래 걸리지 않으세요?</h3>
+        <p>분개장 또는 재무상태표·손익계산서에서 바로 만들어요. 손익계산서와 대조해서 틀리면 알려 줘요.</p>
       </article>
       <article>
-        <h3>재무 데이터 구축</h3>
-        <p>계정 체계를 정리하고 데이터를 받는 경로를 설계합니다. 어떤 시스템을 쓰시든 숫자가 먼저입니다.</p>
+        <span class="tag">월 마감</span>
+        <h3>담당자가 바뀌어 월 마감이 늦어진 적 없으세요?</h3>
+        <p>절차와 증빙이 사람이 아니라 시스템에 남아요.</p>
       </article>
+      <article>
+        <span class="tag">자금</span>
+        <h3>현금이 갑자기 부족해서 놀란 적 없으세요?</h3>
+        <p>계약과 지급 일정이 자금월보 예측으로 들어가요.</p>
+      </article>
+      <article>
+        <span class="tag">사업부별 손익</span>
+        <h3>사업부별로 이익인지 손실인지 궁금하지 않으세요?</h3>
+        <p>분개에 사업부가 붙어요. 공통비도 나눠요.</p>
+      </article>
+      <article>
+        <span class="tag">전표 스크리닝</span>
+        <h3>사업부서에서 잘못된 전표가 종종 올라오지 않으세요?</h3>
+        <p>규칙에 걸린 전표만 보여 줘요.</p>
+      </article>
+      <article>
+        <span class="tag">보고서</span>
+        <h3>이사회·투자자·경영진 보고 양식이 다 달라, 매번 자료를 다시 만드는 게 힘들지 않으세요?</h3>
+        <p>한 자료로 여러 양식을 만들어요.</p>
+      </article>
+      <article>
+        <span class="tag">구독 관리</span>
+        <h3>안 쓰는 프로그램 비용이 매달 나가고 있지 않은지 확인해 보셨어요?</h3>
+        <p>분개장에서 매달 같은 금액을 찾아내요.</p>
+      </article>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>자주 묻는 것</h2>
+    <div class="faq">
+      <div>
+        <b>더존이 아니어도 되나요?</b>
+        <p>엑셀로 뽑을 수 있으면 돼요. 영림원 · SAP · 직접 만든 엑셀도 올려요.</p>
+      </div>
+      <div>
+        <b>설치해야 하나요?</b>
+        <p>아니요. 웹 브라우저로 써요.</p>
+      </div>
     </div>
   </section>
 
