@@ -19,6 +19,7 @@
 <link rel="icon" href="/logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="/style.css">
+<script src="/shot.js" defer></script>
 </head>
 <body>
 
@@ -26,7 +27,7 @@
 
   <div class="top">
     <a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a>
-    <nav><a href="/product/" aria-current="page">제품</a><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의</a></nav>
+    <nav><span class="menu"><a href="/product/" aria-current="page">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의</a></nav>
   </div>
 
   <header>
@@ -71,14 +72,11 @@
       <li><b>검산합니다</b> <span>합치기 전에 각 법인이 스스로 맞는지 먼저 봅니다. 차변 = 대변, 시산표 = 재무제표, 기초 + 증감 = 기말.</span></li>
       <li><b>환산합니다</b> <span>통화가 다른 법인을 모회사 통화로. 환산차이가 어디서 왔는지 남습니다.</span></li>
       <li><b>조정합니다</b> <span>투자자본상계 · 내부거래제거 · 비지배 배분 · 이연법인세. 조정마다 적요 · 올린 엑셀 · 작성자 · 날짜가 붙습니다.</span></li>
-      <li><b>정산표가 섭니다</b> <span>합산 · 조정 · 연결이 한 화면에서 옆으로 늘어섭니다. 대차가 0인지 바로 보입니다.</span></li>
+      <li><b>정산표가 나옵니다</b> <span>합산 · 조정 · 연결이 한 화면에 옆으로 나란히 놓입니다. 대차가 0인지 바로 보입니다.</span></li>
       <li><b>네 장이 나옵니다</b> <span>연결재무상태표 · 손익계산서 · 현금흐름표 · 자본변동표. 한 번의 확정에서 나온 한 벌로 묶입니다.</span></li>
     </ol>
 
-    <div class="shot">
-      <b>[ 화면 ]</b>
-      연결BS/PL정산표 — 합산 · 조정 · 연결이 옆으로 늘어서고 대차가 0으로 닫히는 줄
-    </div>
+    <img class="shot" src="/shot/consol-inv.png" alt="투자자본상계 — 취득내역과 자본변동, PPA 까지 한 화면에" loading="lazy">
   </section>
 
   <hr>
@@ -86,10 +84,7 @@
   <section>
     <h2>내부거래가 안 맞을 때</h2>
     <p>양쪽 금액이 다르면 지우기 전에 먼저 보여 줍니다. 금액 · 차대 · 날짜로 짝을 찾아 후보를 올려 주고, 무엇을 짝으로 볼지는 사람이 정합니다.</p>
-    <div class="shot">
-      <b>[ 화면 ]</b>
-      내부거래제거 — 짝이 안 맞는 금액과 추천된 상대 줄
-    </div>
+    <img class="shot" src="/shot/consol-ic.png" alt="내부거래제거 — 짝이 안 맞는 금액과 추천된 상대 줄" loading="lazy">
   </section>
 
   <hr>
@@ -105,33 +100,30 @@
       <div>연결조정분개 내역</div>
     </div>
     <p style="margin-top:14px">한 번 확정하면 이 표들이 <b>한 벌</b>로 묶입니다. 「2026-06-30 연결」을 통째로 감사인에게 드릴 수 있습니다.</p>
-    <div class="shot">
-      <b>[ 화면 ]</b>
-      결산 파일 — 한 번의 확정에서 나온 시트 한 벌
-    </div>
+    <img class="shot" src="/shot/consol-books.png" alt="결산 파일 — 한 번의 확정에서 나온 시트 한 벌" loading="lazy">
   </section>
 
   <hr>
 
   <section>
-    <h2>자주 묻는 것</h2>
-    <div class="cards">
-      <div>
-        <b>ERP를 바꿔야 하나요?</b>
+    <h2>자주 묻는 질문</h2>
+    <div class="faq">
+      <details>
+        <summary>ERP를 바꿔야 하나요?</summary>
         <p>아니요. 지금 쓰시는 ERP에서 엑셀로 뽑을 수 있으면 됩니다. 더존 · 영림원 · SAP · 직접 만든 엑셀 다 됩니다.</p>
-      </div>
-      <div>
-        <b>엑셀을 못 쓰게 되나요?</b>
+      </details>
+      <details>
+        <summary>엑셀을 못 쓰게 되나요?</summary>
         <p>아니요. 예외가 많고 근거 자료가 붙어야 하는 조정은 엑셀이 편합니다. 그 엑셀을 올리면 최종 숫자에 같이 반영됩니다.</p>
-      </div>
-      <div>
-        <b>해외 법인이 있어도 되나요?</b>
-        <p>됩니다. 통화가 다르면 환산부터 하고, 환산차이는 기타포괄손익으로 따로 섭니다.</p>
-      </div>
-      <div>
-        <b>몇 곳까지 되나요?</b>
+      </details>
+      <details>
+        <summary>해외 법인이 있어도 되나요?</summary>
+        <p>됩니다. 통화가 다르면 환산부터 하고, 환산차이는 기타포괄손익으로 따로 잡힙니다.</p>
+      </details>
+      <details>
+        <summary>몇 곳까지 되나요?</summary>
         <p>법인 수에 제한은 없습니다. 자회사가 다시 자회사를 가진 구조도 됩니다.</p>
-      </div>
+      </details>
     </div>
   </section>
 
@@ -140,7 +132,6 @@
   <section class="cta">
     <h2>보시겠어요</h2>
     <a href="mailto:contact@luwiz.co.kr">contact@luwiz.co.kr</a>
-    <p class="more"><a href="/blog/consolidation-is-hard.html">글 — 연결회계, 이론보다 작성이 어렵다 →</a></p>
   </section>
 
   <hr>

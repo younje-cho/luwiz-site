@@ -75,6 +75,25 @@
   .top nav a:hover{color:var(--gold)}
   .top nav a.btn{background:var(--navy);color:#fff;font-size:14px;line-height:1;padding:9px 15px;border-radius:6px;font-weight:600}
   .top nav a.btn:hover{background:var(--gold); color:#fff}
+  /* 「제품」에 올리면 펴진다. 아래 여백은 마우스가 지날 다리다 - 없으면 내려가다 닫힌다 */
+  .top .menu{position:relative;display:inline-flex;padding-bottom:14px;margin-bottom:-14px}
+  .top .sub{position:absolute;top:100%;left:50%;transform:translateX(-50%);display:none;
+        min-width:168px;z-index:20;padding:6px;background:#fff;
+        border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(20,32,44,.09)}
+  .top .menu:hover .sub{display:block}
+  .top .sub a{display:block;padding:8px 12px;border-radius:7px;white-space:nowrap;font-size:14.5px}
+  .top .sub a:hover{background:var(--card);color:var(--gold)}
+  /* 자주 묻는 질문 - 제목만 서고 누르면 답이 펴진다 */
+  .faq{border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;position:relative;
+        padding:15px 32px 15px 0;font-size:16px;font-weight:600;color:var(--navy)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";position:absolute;right:6px;top:13px;
+        color:var(--gold);font-size:19px;font-weight:400;line-height:1.4}
+  .faq details[open] summary::after{content:"2"}
+  .faq summary:hover{color:var(--gold)}
+  .faq p{margin:0;padding:0 32px 17px 0;font-size:15.5px;color:var(--muted)}
 
   .posts{list-style:none; display:grid; gap:10px}
   .posts li{background:var(--card); border:1px solid var(--line); border-radius:10px}
@@ -114,10 +133,6 @@
   .checks li{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 18px; font-size:15.5px; display:flex; gap:12px; align-items:baseline}
   .checks li::before{content:"✓"; color:var(--gold); font-weight:700}
 
-  .faq{display:grid; gap:10px}
-  .faq div{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 20px}
-  .faq b{display:block; font-size:15.5px; color:var(--navy); margin-bottom:4px}
-  .faq p{font-size:15px; color:var(--muted)}
 
   .contact a{display:block; font-size:19px; color:var(--navy); text-decoration:none; font-weight:600}
   .contact a:hover{color:var(--gold)}
@@ -141,7 +156,7 @@
   <div class="top">
     <img src="logo.png" alt="루위즈">
     <span>주식회사 루위즈</span>
-    <nav><a href="/product/">제품</a><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의</a></nav>
+    <nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의</a></nav>
   </div>
 
   <header>
@@ -159,7 +174,7 @@
     <div class="gather">
       <div><b>매일 저절로 들어옵니다</b><p>통장 · 법인카드 · 온라인 매출이 하루 한 번 수집됩니다. 옮겨 적지 않습니다.</p></div>
       <div><b>엑셀은 그대로 올립니다</b><p>ERP에서 뽑은 것도, 손으로 만든 것도 됩니다. 열을 한 번 잡아 두면 다음부터 안 묻습니다.</p></div>
-      <div><b>담기기 전에 검산합니다</b><p>차변 = 대변, 시산표 = 재무제표, 기초 + 증감 = 기말. 안 맞으면 어디서 벌어졌는지 짚습니다.</p></div>
+      <div><b>담기기 전에 검산합니다</b><p>차변 = 대변, 시산표 = 재무제표, 기초 + 증감 = 기말. 안 맞으면 어디서 벌어졌는지 찾습니다.</p></div>
     </div>
     <p class="after">그 위에 결산과 분석을 얹습니다.</p>
   </section>
@@ -220,16 +235,16 @@
   <hr>
 
   <section>
-    <h2>자주 묻는 것</h2>
+    <h2>자주 묻는 질문</h2>
     <div class="faq">
-      <div>
-        <b>더존이 아니어도 되나요?</b>
+      <details>
+        <summary>더존이 아니어도 되나요?</summary>
         <p>엑셀로 뽑을 수 있으면 돼요. 영림원 · SAP · 직접 만든 엑셀도 올려요.</p>
-      </div>
-      <div>
-        <b>설치해야 하나요?</b>
+      </details>
+      <details>
+        <summary>설치해야 하나요?</summary>
         <p>아니요. 웹 브라우저로 써요.</p>
-      </div>
+      </details>
     </div>
   </section>
 
