@@ -188,7 +188,37 @@ def main():
     print(f"ok  글 {len(posts)}장 + 목록")
     for t, s, d in posts:
         print(f"    /blog/{s}.html   {t}")
+    sitemap()
+
+def sitemap():
+    """저장소의 .html 을 훑어 sitemap.xml · robots.txt 를 쓴다.
+    손으로 만든 제품 페이지도 같이 들어가므로, 목록을 적는 것보다 파일을 훑는 쪽이 안 빠뜨린다."""
+    import datetime
+    rows = []
+    for root, _dirs, files in os.walk(HERE):
+        if os.sep + "." in root:
+            continue
+        for f in sorted(files):
+            if not f.endswith(".html"):
+                continue
+            full = os.path.join(root, f)
+            rel = os.path.relpath(full, HERE).replace(os.sep, "/")
+            url = SITE + "/" + rel
+            if rel.endswith("index.html"):                 # 목록은 폴더 주소로
+                url = SITE + "/" + rel[:-len("index.html")]
+            mod = datetime.date.fromtimestamp(os.path.getmtime(full)).isoformat()
+            pri = "1.0" if rel == "index.html" else ("0.8" if rel.endswith("index.html") else "0.6")
+            rows.append((url, mod, pri))
+    line = '  <url><loc>{}</loc><lastmod>{}</lastmod><priority>{}</priority></url>'
+    body = "\n".join(line.format(u, m, p) for u, m, p in sorted(rows))
+    io.open(os.path.join(HERE, "sitemap.xml"), "w", encoding="utf-8", newline="\n").write(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "\n</urlset>\n")
+    io.open(os.path.join(HERE, "robots.txt"), "w", encoding="utf-8", newline="\n").write(
+        "User-agent: *\nAllow: /\n\nSitemap: " + SITE + "/sitemap.xml\n")
+    print("    sitemap.xml  주소 %d개 · robots.txt" % len(rows))
 
 
 if __name__ == "__main__":
     main()
+
