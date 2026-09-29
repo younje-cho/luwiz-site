@@ -13,10 +13,10 @@ body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun 
 .top a.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .top img{height:30px;width:auto}
 .top span{font-size:14px;font-weight:600;color:var(--navy);letter-spacing:.02em}
-.top nav{margin-left:auto;display:flex;gap:18px}
+.top nav{margin-left:auto;display:flex;align-items:center;gap:20px}
 .top nav a{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
 .top nav a:hover,.top nav a[aria-current]{color:var(--gold)}
-.top nav a.btn{background:var(--navy);color:#fff;padding:6px 14px;border-radius:7px;font-weight:600}
+.top nav a.btn{background:var(--navy);color:#fff;font-size:14px;line-height:1;padding:9px 15px;border-radius:6px;font-weight:600}
 .top nav a.btn:hover{background:var(--gold);color:#fff}
 
 hr{border:0;border-top:1px solid var(--line);margin:0}

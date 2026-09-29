@@ -116,7 +116,10 @@ def main():
         p = SRC + name + ".md"
         md = io.open(p, encoding="utf-8").read()
         title = re.search(r"^# (.+)$", md, flags=re.M).group(1).strip()
-        date = (re.search(r"^쓴 날:\s*(\S+)", md, flags=re.M) or [None, ""])[1]
+        # **발행일이 있으면 그것을 쓴다** - 독자는 이 날짜를 발행일로 읽는다.
+        # 앞머리에 `발행: 2026-09-29` 를 적는다. 없으면 쓴 날로 떨어진다.
+        m = re.search(r"^발행:\s*(\S+)", md, flags=re.M) or re.search(r"^쓴 날:\s*(\S+)", md, flags=re.M)
+        date = m.group(1) if m else ""
         desc = first_para(md)
         doc = f"""<!doctype html>
 <html lang="ko">
