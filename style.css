@@ -1,7 +1,7 @@
 /* 블로그 · 제품 페이지가 같이 쓴다. index.html 은 제 스타일을 따로 갖는다
    (첫 화면만의 짜임이 있어 섞지 않는다). 색과 글꼴은 여기와 같게 맞춘다. */
 
-:root{--navy:#193248;--gold:#AC8540;--ink:#1c2b3a;--muted:#5f6f7e;--line:#e3e1d9;--bg:#faf9f5;--card:#fff}
+:root{--navy:#193248;--gold:#AC8540;--ink:#1c2b3a;--muted:#5f6f7e;--line:#e6e4dd;--bg:#ffffff;--card:#faf9f5}
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
@@ -16,6 +16,8 @@ body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun 
 .top nav{margin-left:auto;display:flex;gap:18px}
 .top nav a{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
 .top nav a:hover,.top nav a[aria-current]{color:var(--gold)}
+.top nav a.btn{background:var(--navy);color:#fff;padding:6px 14px;border-radius:7px;font-weight:600}
+.top nav a.btn:hover{background:var(--gold);color:#fff}
 
 hr{border:0;border-top:1px solid var(--line);margin:0}
 section{padding:42px 0}
