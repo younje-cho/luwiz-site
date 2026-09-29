@@ -18,70 +18,7 @@
 <link rel="canonical" href="https://luwiz.co.kr/product/consolidation.html">
 <link rel="icon" href="/logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<style>
-  :root{--navy:#193248;--gold:#AC8540;--ink:#1c2b3a;--muted:#5f6f7e;--line:#e3e1d9;--bg:#faf9f5;--card:#fff}
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
-       background:var(--bg);color:var(--ink);line-height:1.8;letter-spacing:-.01em}
-  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
-  .top{display:flex;align-items:center;gap:10px;padding:28px 0 0}
-  .top a.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-  .top img{height:30px;width:auto}
-  .top span{font-size:14px;font-weight:600;color:var(--navy);letter-spacing:.02em}
-  .top nav{margin-left:auto;display:flex;gap:18px}
-  .top nav a{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
-  .top nav a:hover{color:var(--gold)}
-
-  header{padding:52px 0 44px}
-  .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:14px}
-  header h1{font-size:32px;line-height:1.35;font-weight:700;color:var(--navy);letter-spacing:-.02em}
-  header p{margin-top:16px;font-size:17.5px;color:var(--muted);line-height:1.85}
-  header p b{color:var(--ink);font-weight:600}
-
-  hr{border:0;border-top:1px solid var(--line);margin:0}
-  section{padding:42px 0}
-  h2{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:18px}
-  h3{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px}
-  section > p{font-size:16px;color:var(--muted);margin-bottom:14px}
-
-  .pain{display:grid;gap:12px}
-  .pain div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
-  .pain b{display:block;font-size:16px;color:var(--navy);margin-bottom:4px}
-  .pain p{font-size:15px;color:var(--muted)}
-
-  .steps{list-style:none;counter-reset:s;display:grid;gap:10px}
-  .steps li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 20px;
-            display:flex;gap:14px;align-items:baseline}
-  .steps li::before{counter-increment:s;content:counter(s);flex:none;width:22px;height:22px;
-            border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;
-            display:inline-flex;align-items:center;justify-content:center;transform:translateY(3px)}
-  .steps b{font-weight:600;color:var(--navy)}
-  .steps span{color:var(--muted);font-size:15px}
-
-  .shot{border:1px dashed #c9c5b8;border-radius:10px;background:#f4f2ec;
-        padding:40px 20px;text-align:center;color:#8d8778;font-size:14px;margin:18px 0}
-  .shot b{display:block;color:#6f6a5c;font-size:15px;margin-bottom:4px}
-
-  .out{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .out div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;
-           font-size:15.5px;font-weight:500}
-
-  .faq{display:grid;gap:10px}
-  .faq div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
-  .faq b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:4px}
-  .faq p{font-size:15px;color:var(--muted)}
-
-  .cta a{display:block;font-size:19px;color:var(--navy);text-decoration:none;font-weight:600}
-  .cta a:hover{color:var(--gold)}
-  .more{margin-top:12px;font-size:14.5px}
-  .more a{color:var(--muted);text-decoration:none}
-  .more a:hover{color:var(--gold)}
-
-  footer{padding:30px 0 52px;font-size:13.5px;color:var(--muted);line-height:2}
-  footer strong{color:var(--ink);font-weight:600}
-  @media (max-width:560px){header h1{font-size:25px}.out{grid-template-columns:1fr}section{padding:34px 0}}
-</style>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
@@ -89,7 +26,7 @@
 
   <div class="top">
     <a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a>
-    <nav><a href="/blog/">글</a></nav>
+    <nav><a href="/product/" aria-current="page">제품</a><a href="/blog/">글</a></nav>
   </div>
 
   <header>
@@ -105,7 +42,7 @@
 
   <section>
     <h2>이런 일 있으시죠</h2>
-    <div class="pain">
+    <div class="cards">
       <div>
         <b>모회사 장부에는 매출 100, 자회사 장부에는 매입 98</b>
         <p>선적과 도착 시점이 다르거나, 환율을 다르게 잡았거나, 한쪽이 계정을 달리 분류했거나. 해마다 생기는데 어디서 벌어졌는지는 매번 손으로 찾습니다.</p>
@@ -159,7 +96,7 @@
 
   <section>
     <h2>같이 나오는 것</h2>
-    <div class="out">
+    <div class="two">
       <div>연결재무상태표</div>
       <div>연결손익계산서</div>
       <div>연결현금흐름표</div>
@@ -178,7 +115,7 @@
 
   <section>
     <h2>자주 묻는 것</h2>
-    <div class="faq">
+    <div class="cards">
       <div>
         <b>ERP를 바꿔야 하나요?</b>
         <p>아니요. 지금 쓰시는 ERP에서 엑셀로 뽑을 수 있으면 됩니다. 더존 · 영림원 · SAP · 직접 만든 엑셀 다 됩니다.</p>

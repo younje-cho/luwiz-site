@@ -1,0 +1,105 @@
+/* 블로그 · 제품 페이지가 같이 쓴다. index.html 은 제 스타일을 따로 갖는다
+   (첫 화면만의 짜임이 있어 섞지 않는다). 색과 글꼴은 여기와 같게 맞춘다. */
+
+:root{--navy:#193248;--gold:#AC8540;--ink:#1c2b3a;--muted:#5f6f7e;--line:#e3e1d9;--bg:#faf9f5;--card:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
+     background:var(--bg);color:var(--ink);line-height:1.8;letter-spacing:-.01em}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+/* 위 */
+.top{display:flex;align-items:center;gap:10px;padding:28px 0 0}
+.top a.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.top img{height:30px;width:auto}
+.top span{font-size:14px;font-weight:600;color:var(--navy);letter-spacing:.02em}
+.top nav{margin-left:auto;display:flex;gap:18px}
+.top nav a{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
+.top nav a:hover,.top nav a[aria-current]{color:var(--gold)}
+
+hr{border:0;border-top:1px solid var(--line);margin:0}
+section{padding:42px 0}
+h2{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:18px}
+
+/* 머리 */
+header{padding:52px 0 44px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:14px}
+header h1{font-size:32px;line-height:1.35;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+header p{margin-top:16px;font-size:17.5px;color:var(--muted);line-height:1.85}
+header p b{color:var(--ink);font-weight:600}
+
+/* 카드 묶음 */
+.cards{display:grid;gap:12px}
+.cards > *{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+.cards b{display:block;font-size:16px;color:var(--navy);margin-bottom:4px}
+.cards p{font-size:15px;color:var(--muted)}
+a.card{text-decoration:none;display:block}
+a.card:hover b{color:var(--gold)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;
+         font-size:15.5px;font-weight:500}
+
+/* 차례 */
+.steps{list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 20px;
+          display:flex;gap:14px;align-items:baseline}
+.steps li::before{counter-increment:s;content:counter(s);flex:none;width:22px;height:22px;
+          border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;
+          display:inline-flex;align-items:center;justify-content:center;transform:translateY(3px)}
+.steps b{font-weight:600;color:var(--navy)}
+.steps span{color:var(--muted);font-size:15px}
+
+/* 화면 캡처 자리 */
+.shot{border:1px dashed #c9c5b8;border-radius:10px;background:#f4f2ec;
+      padding:40px 20px;text-align:center;color:#8d8778;font-size:14px;margin:18px 0}
+.shot b{display:block;color:#6f6a5c;font-size:15px;margin-bottom:4px}
+
+/* 글 */
+article{padding:48px 0 8px}
+article h1{font-size:30px;line-height:1.4;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+article .date{margin-top:12px;font-size:13.5px;color:var(--muted)}
+article h2{font-size:20px;font-weight:700;color:var(--navy);margin:44px 0 14px;letter-spacing:-.02em}
+article h3{font-size:17px;font-weight:700;color:var(--navy);margin:32px 0 10px}
+article p{margin:0 0 18px;font-size:16.5px}
+article b{font-weight:600;color:var(--navy)}
+article ul{margin:0 0 18px;padding-left:20px}
+article li{margin:8px 0;font-size:16.5px}
+blockquote{border-left:3px solid var(--gold);margin:20px 0;padding:6px 0 6px 18px;color:var(--muted)}
+blockquote p{margin:0 0 6px;font-size:16px}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.9;
+    white-space:pre-wrap;margin:0 0 18px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;margin:0 0 18px;font-size:15.5px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f2f1ea;font-weight:600;color:var(--navy)}
+
+/* 목록 */
+.list{padding:40px 0}
+.list h1{font-size:26px;font-weight:700;color:var(--navy);margin-bottom:24px}
+.list ol{list-style:none}
+.list li{border-bottom:1px solid var(--line);padding:18px 0}
+.list a{display:block;text-decoration:none;color:var(--navy);font-size:18px;font-weight:600}
+.list a:hover{color:var(--gold)}
+.list .d{display:block;margin-top:4px;font-size:13.5px;color:var(--muted);font-weight:400}
+
+/* 아래 */
+.foot{padding:28px 0 8px;font-size:15.5px;color:var(--muted)}
+.foot a{color:var(--navy);font-weight:600;text-decoration:none}
+.foot a:hover{color:var(--gold)}
+.cta a{display:block;font-size:19px;color:var(--navy);text-decoration:none;font-weight:600}
+.cta a:hover{color:var(--gold)}
+.more{margin-top:12px;font-size:14.5px}
+.more a{color:var(--muted);text-decoration:none}
+.more a:hover{color:var(--gold)}
+footer{padding:30px 0 52px;font-size:13.5px;color:var(--muted);line-height:2}
+footer strong{color:var(--ink);font-weight:600}
+
+@media (max-width:560px){
+  header{padding:40px 0 36px}
+  header h1{font-size:25px}
+  article h1{font-size:24px}
+  article p,article li{font-size:16px}
+  .two{grid-template-columns:1fr}
+  section{padding:34px 0}
+}
