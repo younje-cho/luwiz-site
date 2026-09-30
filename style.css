@@ -40,8 +40,6 @@ body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun 
 .faq summary:hover{color:var(--gold)}
 .faq p{margin:0;padding:0 32px 17px 0;font-size:15.5px;color:var(--muted)}
 
-
-
 hr{border:0;border-top:1px solid var(--line);margin:0}
 section{padding:42px 0}
 h2{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:18px}
@@ -57,6 +55,8 @@ header p b{color:var(--ink);font-weight:600}
 .cards{display:grid;gap:12px}
 .cards > *{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
 .cards b{display:block;font-size:16px;color:var(--navy);margin-bottom:4px}
+/* 글 안의 굵은 글씨는 줄을 안 바꾼다 - 위 규칙이 제목용이라 본문까지 블록이 됐다 */
+.cards p b{display:inline;font-size:inherit;color:var(--ink);margin:0}
 .cards p{font-size:15px;color:var(--muted)}
 a.card{text-decoration:none;display:block}
 a.card:hover b{color:var(--gold)}
@@ -77,20 +77,7 @@ a.card:hover b{color:var(--gold)}
           display:inline-flex;align-items:center;justify-content:center;transform:translateY(3px)}
 .steps b{font-weight:600;color:var(--navy)}
 .steps span{color:var(--muted);font-size:15.5px}
-
-/* 화면 캡처 - 아직 안 찍은 자리는 div, 찍은 것은 img */
-div.shot{border:1px dashed #c9c5b8;border-radius:10px;background:#f4f2ec;
-      padding:40px 20px;text-align:center;color:#8d8778;font-size:14px;margin:18px 0}
-div.shot b{display:block;color:#6f6a5c;font-size:15px;margin-bottom:4px}
-img.shot{display:block;width:100%;height:auto;margin:18px 0;cursor:zoom-in;
-      border:1px solid var(--line);border-radius:10px}
-img.shot:hover{border-color:var(--gold)}
-
-/* 누르면 꽉 차게 편다 - shot.js 가 만든다 */
-.lightbox{position:fixed;inset:0;z-index:50;background:rgba(18,22,28,.85);
-      display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
-.lightbox img{max-width:100%;max-height:100%;border-radius:8px;
-      box-shadow:0 24px 70px rgba(0,0,0,.45)}
+/* 단계 안에 붙는 화면 - 설명 아래, 같은 들여쓰기 */
 
 /* 글 */
 article{padding:48px 0 8px}

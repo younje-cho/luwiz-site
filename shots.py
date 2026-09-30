@@ -29,13 +29,13 @@ SECRET = pathlib.Path.home() / ".secrets" / "luwiz_demo_login.txt"
 #: (파일 이름, 주소, 무엇을 보이려는 것인가[, 먼저 누를 탭]) - product/*.html 의 점선 네모와 짝이다
 SHOTS = [
     ("consol-inv",     "/c/2/consol/inv",            "투자자본상계 — 취득내역 · 자본변동 · PPA", "취득내역 및 자본변동"),
-    ("consol-ic",      "/c/2/consol/ic",             "내부거래제거 — 짝이 안 맞는 금액"),
-    ("consol-books",   "/c/2/workspace?tab=books",   "결산 파일 — 시트 한 벌"),
+    ("consol-ic",      "/c/2/consol/ic",             "내부거래제거 — 짝이 안 맞는 금액", "채권채무·수익비용"),
+    ("consol-books",   "/c/2/setup/books",           "결산 파일 — 한 번의 확정에서 나온 시트 한 벌"),
     # 네 번째 칸은 찍기 전에 할 일 - 탭 이름이거나, 페이지를 만지는 함수다
     ("cash-daily",     "/c/2/cash",                  "자금일보 — 나날의 입출금과 잔액", "bank"),
     ("alloc",          "/c/2/alloc",                 "사업부별 손익 — 직접비와 배부"),
     ("scenario",       "/c/2/scenario",              "시나리오 분석 — 민감도"),
-    ("cf",             "/c/2/reporting/cf",          "현금흐름표 — 명세와 검산"),
+    ("cf",             "/c/2/reporting/cf/report",   "현금흐름표 — 기초 + 증감 = 기말", "make"),
 ]
 
 
@@ -68,7 +68,9 @@ def trim(f, pad=24):
     bg = Image.new("RGB", im.size, im.getpixel((im.width - 2, im.height - 2)))
     box = ImageChops.difference(im, bg).convert("L").point(lambda v: 255 if v > 8 else 0).getbbox()
     if box:
-        im.crop((0, 0, min(im.width, box[2] + pad), min(im.height, box[3] + pad))).save(f)
+        # **사방을 다 자른다** - 내용이 가운데 서는 화면은 왼쪽이 크게 빈다
+        im.crop((max(0, box[0] - pad), max(0, box[1] - pad),
+                 min(im.width, box[2] + pad), min(im.height, box[3] + pad))).save(f)
 
 
 def main():
@@ -120,6 +122,17 @@ def main():
                             break
                     if not hit or page.locator("main tbody tr").count() == before:
                         break
+            elif ok and tab == "make":
+                # 기간을 고르고 「작성하기」를 눌러야 표가 선다
+                page.locator('input[type="month"]').first.fill("2025-12")
+                page.wait_for_timeout(900)
+                page.evaluate("document.activeElement && document.activeElement.blur()")
+                for bn in ("작성하기", "다시 작성"):
+                    bt = page.get_by_role("button", name=bn)
+                    if bt.count():
+                        bt.first.click()
+                        break
+                page.wait_for_timeout(7000)
             elif ok and tab:
                 try:
                     page.get_by_text(tab, exact=True).first.click(timeout=4000)
@@ -157,7 +170,13 @@ def put():
         def swap(m):
             name = next(it)
             what = " ".join(m.group(1).split())
-            return ('<img class="shot" src="/shot/%s.png" alt="%s" loading="lazy">' % (name, what))
+            return ('<figure class="shot-wrap">
+      '
+                    '<img class="shot" src="/shot/%s.png" alt="%s" loading="lazy">
+      '
+                    '<figcaption>%s</figcaption>
+    </figure>'
+                    % (name, what, what.split("—")[-1].strip()))
 
         s2 = re.sub(r'<div class="shot">\s*<b>\[ 화면 \]</b>\s*(.+?)\s*</div>', swap, s, flags=re.S)
         io.open(root / p, "w", encoding="utf-8", newline="\n").write(s2)
