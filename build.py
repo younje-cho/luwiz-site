@@ -23,8 +23,7 @@ SLUG = {
     "01 재무는 침묵의 장기이자 근력이다": "finance-is-silent",
     "02 연결회계, 이론보다 작성이 어렵다": "consolidation-is-hard",
     "03 미래는 과거에서 출발한다": "future-starts-from-past",
-    # 04 는 다음 주에 낸다 - 낼 때 이 줄의 # 를 뗀다
-    # "04 AI는 정리된 숫자에서 시작한다": "ai-starts-from-clean-numbers",
+    "04 AI는 정리된 숫자에서 시작한다": "ai-starts-from-clean-numbers",
 }
 
 GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
