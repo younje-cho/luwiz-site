@@ -12,6 +12,7 @@ import html
 import io
 import os
 import re
+import shutil
 
 SRC = "C:/Users/Lenovo/Documents/Obsidian/Younje/1. Project/루위즈/마케팅/글/"
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -24,6 +25,7 @@ SLUG = {
     "02 연결회계, 이론보다 작성이 어렵다": "consolidation-is-hard",
     "03 미래는 과거에서 출발한다": "future-starts-from-past",
     "04 AI는 정리된 숫자에서 시작한다": "ai-starts-from-clean-numbers",
+    "05 연결재무제표는 누가 만들어야 하나": "who-makes-consolidated-statements",
 }
 
 GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
@@ -76,7 +78,10 @@ def body_of(md):
             out.append("<blockquote>" + "".join(buf) + "</blockquote>")
         elif ln.startswith("!["):                      # ![설명](주소) - 그래프
             m = re.match(r"!\[(.*?)\]\((.+?)\)", ln)
-            out.append(f'<figure><img src="{m.group(2)}" alt="{inline(m.group(1))}">'
+            src = m.group(2)
+            if not src.startswith(("/", "http")):      # 원고는 옵시디언 상대 경로
+                src = "/blog/img/" + os.path.basename(src)
+            out.append(f'<figure><img src="{src}" alt="{inline(m.group(1))}">'
                        f'<figcaption>{inline(m.group(1))}</figcaption></figure>')
         elif ln.startswith("|") and ln.rstrip().endswith("|"):
             rows = []
@@ -114,6 +119,11 @@ def first_para(md):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    pics = os.path.join(SRC, "img")           # 그림은 원고 옆이 원본이다
+    if os.path.isdir(pics):
+        os.makedirs(os.path.join(OUT, "img"), exist_ok=True)
+        for f in os.listdir(pics):
+            shutil.copy2(os.path.join(pics, f), os.path.join(OUT, "img", f))
     posts = []
     for name, slug in SLUG.items():
         p = SRC + name + ".md"

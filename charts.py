@@ -16,7 +16,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blog", "img")
+#: 그림은 **원고 옆**에 둔다 - 옵시디언에서도 보여야 글을 쓰면서 확인한다.
+#: 홈페이지 쪽 `blog/img/` 로는 `build.py` 가 옮긴다.
+OUT = "C:/Users/Lenovo/Documents/Obsidian/Younje/1. Project/루위즈/마케팅/글/img"
 INK, GREY, HOT = "#1f2937", "#cbd5e1", "#2563eb"
 
 for f in ("Malgun Gothic", "맑은 고딕", "NanumGothic", "Gulim"):
@@ -66,14 +68,41 @@ def funnel_gap():
     return p
 
 
-ALL = [funnel_gap]
+def funnel_basic():
+    """09편 기본 - 12만이 들어와 3,748이 산다. 칸 사이에 전환율."""
+    names = ["사이트 방문", "상품 상세 열람", "장바구니 담기", "결제 시작", "결제 완료"]
+    cnt = [120000, 26400, 7392, 4805, 3748]
+    fig, ax = plt.subplots(figsize=(8.6, 4.4), dpi=150)
+    top = cnt[0]
+    for i, (nm, c) in enumerate(zip(names, cnt)):
+        w = c / top
+        ax.barh(-i, w, left=(1 - w) / 2, height=.52,
+                color=HOT if i == len(cnt) - 1 else "#93b4f5", zorder=3)
+        ax.text(-0.04, -i, nm, ha="right", va="center", fontsize=11.5, color=INK)
+        ax.text(1.04, -i, format(c, ","), ha="left", va="center", fontsize=11.5,
+                color=INK, fontweight="bold" if i == len(cnt) - 1 else "normal")
+        if i:
+            ax.text(.5, -i + .5, "%.1f%%" % (c / cnt[i - 1] * 100), ha="center",
+                    va="center", fontsize=10.5, color="#64748b")
+    ax.set_xlim(-.42, 1.3)
+    ax.set_ylim(-len(cnt) + .4, .6)
+    ax.axis("off")
+    ax.text(.5, .52, "전체 전환율 3.12%", ha="center", fontsize=11.5,
+            color=HOT, fontweight="bold")
+    fig.tight_layout(pad=.6)
+    p = os.path.join(OUT, "funnel-basic.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+ALL = [funnel_basic, funnel_gap]
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     for f in ALL:
         p = f()
-        print("%s  %.0f KB" % (p.replace(os.sep, "/").split("luwiz-site/")[-1],
-                               os.path.getsize(p) / 1024))
+        print("%s  %.0f KB" % (os.path.basename(p), os.path.getsize(p) / 1024))
     if "--check" in sys.argv:
         assert plt.rcParams["font.family"][0] != "sans-serif", "한글 폰트를 못 찾았어요"
         print("ok")

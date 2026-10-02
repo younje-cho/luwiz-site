@@ -66,8 +66,8 @@ def convert(md):
         elif t.startswith("!["):                                  # 그래프
             m = re.match(r"!\[(.*?)\]\((.+?)\)", t)
             src = m.group(2)
-            if src.startswith("/"):
-                src = "https://luwiz.co.kr" + src
+            if not src.startswith("http"):
+                src = "https://luwiz.co.kr/blog/img/" + os.path.basename(src)
             out.append('<p><img src="%s" alt="%s" style="max-width:100%%"></p>'
                        % (src, html.escape(m.group(1))))
         elif t.startswith("|"):                                   # 표
