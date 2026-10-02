@@ -126,3 +126,7 @@ footer strong{color:var(--ink);font-weight:600}
   article p,article li{font-size:16px}
   section{padding:34px 0}
 }
+
+figure{margin:24px 0}
+figure img{width:100%;height:auto;display:block}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:8px;text-align:center}

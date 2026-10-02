@@ -63,6 +63,13 @@ def convert(md):
         elif t.startswith("#"):                                   # 제목
             n = len(t) - len(t.lstrip("#"))
             out.append("<h%d>%s</h%d>" % (n, inline(t.lstrip("# ")), n))
+        elif t.startswith("!["):                                  # 그래프
+            m = re.match(r"!\[(.*?)\]\((.+?)\)", t)
+            src = m.group(2)
+            if src.startswith("/"):
+                src = "https://luwiz.co.kr" + src
+            out.append('<p><img src="%s" alt="%s" style="max-width:100%%"></p>'
+                       % (src, html.escape(m.group(1))))
         elif t.startswith("|"):                                   # 표
             rows = []
             while i < len(lines) and lines[i].strip().startswith("|"):

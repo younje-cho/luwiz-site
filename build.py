@@ -74,6 +74,10 @@ def body_of(md):
                 i += 1
             i -= 1
             out.append("<blockquote>" + "".join(buf) + "</blockquote>")
+        elif ln.startswith("!["):                      # ![설명](주소) - 그래프
+            m = re.match(r"!\[(.*?)\]\((.+?)\)", ln)
+            out.append(f'<figure><img src="{m.group(2)}" alt="{inline(m.group(1))}">'
+                       f'<figcaption>{inline(m.group(1))}</figcaption></figure>')
         elif ln.startswith("|") and ln.rstrip().endswith("|"):
             rows = []
             while i < len(lines) and lines[i].startswith("|"):
