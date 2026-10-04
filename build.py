@@ -26,6 +26,7 @@ SLUG = {
     "03 미래는 과거에서 출발한다": "future-starts-from-past",
     "04 AI는 정리된 숫자에서 시작한다": "ai-starts-from-clean-numbers",
     "05 연결재무제표는 누가 만들어야 하나": "who-makes-consolidated-statements",
+    "06 현금흐름표는 왜 따로 있나": "why-cash-flow-statement",
 }
 
 GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
