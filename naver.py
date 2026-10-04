@@ -7,7 +7,7 @@
 홈페이지는 `build.py` 가 뽑는다. 네이버는 모양이 달라서 따로 만든다 -
 네이버 편집기가 빈 줄을 먹어서 `<p>&nbsp;</p>` 로 띄워야 간격이 산다.
 
-브라우저로 열어 전체 선택 · 복사해서 네이버 글쓰기에 붙여 넣는다.
+뽑으면 브라우저가 바로 열린다. 전체 선택 · 복사해서 네이버 글쓰기에 붙여 넣는다.
 네이버는 완결된 글을 좋아하고 외부 링크가 많으면 노출이 떨어져서,
 전문을 올리고 끝에 luwiz.co.kr 한 줄만 붙인다.
 """
@@ -133,6 +133,8 @@ if __name__ == "__main__":
             if f.endswith(".md"):
                 print("%s  블록 %d" % make(f[:-3]))
     elif len(sys.argv) > 1:
-        print("%s  블록 %d" % make(sys.argv[1]))
+        path, n = make(sys.argv[1])
+        print("%s  블록 %d" % (path, n))
+        os.startfile(path)                     # 바로 띄운다 - 어차피 열어서 복사한다
     else:
         print(__doc__)

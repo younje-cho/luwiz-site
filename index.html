@@ -23,7 +23,12 @@
      **아랫줄 낱말은 검색수를 재서 골랐다**(2026-09-29 · keywords.py).
        관리회계 940 · 현금흐름표 830 · 자금일보 460 · 연결재무제표 330
        사업부별손익 · 공통비배부는 0 이라 쓰지 않는다 - 우리끼리 쓰던 말이다
-       「연결결산」도 거의 0 이다. 사람들은 「연결재무제표」로 친다 -->
+       「연결결산」도 거의 0 이다. 사람들은 「연결재무제표」로 친다
+
+     2026-10-04 다시 그림(대표님: 「미국 회계 스타트업 홈페이지처럼 · 지금은 너무 어린이용 같다」).
+       바꾼 것 - 폭 720 → 1120 · 제목 32 → 60 · 크림색 둥근 상자 14개를 걷음 · 구역 머리의
+       금색 작은 글씨를 걷고 제목을 크게 · 「~않으세요?」 질문체 → 단정문 · 검산 한 구역을 남색으로.
+       안 바꾼 것 - 핵심 문장 · 메뉴 · 주소 · 글자 수(검색 낱말) · 제품 화면 캡처 없음(2026-09-30). -->
 <meta name="description" content="연결재무제표 · 현금흐름표 · 관리회계 · 자금일보. 올린 숫자가 맞는지 먼저 검산합니다.">
 <meta property="og:title" content="주식회사 루위즈 — 결산부터 분석까지">
 <meta property="og:description" content="연결재무제표 · 현금흐름표 · 관리회계 · 자금일보. 올린 숫자가 맞는지 먼저 검산합니다.">
@@ -48,221 +53,204 @@
 <link rel="canonical" href="https://luwiz.co.kr/">
 <link rel="icon" href="logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="/style.css">
 <style>
-  :root{
-    --navy:#193248;
-    --gold:#AC8540;
-    --ink:#1c2b3a;
-    --muted:#5f6f7e;
-    --line:#e6e4dd;
-    --bg:#ffffff;
-    --card:#faf9f5;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{
-    font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
-    background:var(--bg); color:var(--ink);
-    line-height:1.75; letter-spacing:-.01em;
-  }
-  .wrap{max-width:720px; margin:0 auto; padding:0 24px}
+  /* 첫 화면만의 짜임. 색 · 글꼴 · 위 메뉴 · 바닥은 style.css 를 그대로 쓴다. */
+  .hero{padding:72px 0 88px}
+  .hero h1{font-size:60px;line-height:1.15;font-weight:800;letter-spacing:-.035em;color:var(--navy);max-width:14ch}
+  .hero p{margin-top:26px;font-size:21px;line-height:1.6;color:var(--muted);max-width:34ch}
+  .hero p b{color:var(--ink);font-weight:600}
+  .hero .acts{margin-top:40px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn-main,.btn-sub{display:inline-block;text-decoration:none;font-weight:600;font-size:16px;line-height:1;padding:16px 22px;border-radius:6px}
+  .btn-main{background:var(--navy);color:#fff}
+  .btn-main:hover{background:#0f2234}
+  .btn-sub{color:var(--navy);border:1px solid var(--line)}
+  .btn-sub:hover{border-color:var(--navy)}
 
-  .top{display:flex; align-items:center; gap:10px; padding:28px 0 0}
-  .top img{height:30px; width:auto}
-  .top span{font-size:14px; font-weight:600; color:var(--navy); letter-spacing:.02em}
-  .top nav{margin-left:auto; display:flex; align-items:center; gap:20px}
-  .top nav a{font-size:14.5px; color:var(--muted); text-decoration:none; font-weight:500}
-  .top nav a:hover{color:var(--gold)}
-  .top nav a.btn{background:var(--navy);color:#fff;font-size:14px;line-height:1;padding:9px 15px;border-radius:6px;font-weight:600}
-  .top nav a.btn:hover{background:var(--gold); color:#fff}
-  /* 「제품」에 올리면 펴진다. 아래 여백은 마우스가 지날 다리다 - 없으면 내려가다 닫힌다 */
-  .top .menu{position:relative;display:inline-flex;padding-bottom:14px;margin-bottom:-14px}
-  .top .sub{position:absolute;top:100%;left:50%;transform:translateX(-50%);display:none;
-        min-width:168px;z-index:20;padding:6px;background:#fff;
-        border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(20,32,44,.09)}
-  .top .menu:hover .sub{display:block}
-  .top .sub a{display:block;padding:8px 12px;border-radius:7px;white-space:nowrap;font-size:14.5px}
-  .top .sub a:hover{background:var(--card);color:var(--gold)}
-  /* 자주 묻는 질문 - 제목만 서고 누르면 답이 펴진다 */
-  .faq{border-top:1px solid var(--line)}
-  .faq details{border-bottom:1px solid var(--line)}
-  .faq summary{list-style:none;cursor:pointer;position:relative;
-        padding:15px 32px 15px 0;font-size:16px;font-weight:600;color:var(--navy)}
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{content:"+";position:absolute;right:6px;top:13px;
-        color:var(--gold);font-size:19px;font-weight:400;line-height:1.4}
-  .faq details[open] summary::after{content:"2"}
-  .faq summary:hover{color:var(--gold)}
-  .faq p{margin:0;padding:0 32px 17px 0;font-size:15.5px;color:var(--muted)}
+  .sec{padding:88px 0}
+  .sec h2{font-size:34px;line-height:1.25;font-weight:700;letter-spacing:-.025em;color:var(--navy);margin-bottom:14px}
+  .sec .lead{font-size:19px;line-height:1.6;color:var(--muted);max-width:52ch;margin-bottom:48px}
 
-  .posts{list-style:none; display:grid; gap:10px}
-  .posts li{background:var(--card); border:1px solid var(--line); border-radius:10px}
-  .posts a{display:block; padding:15px 20px; text-decoration:none; color:var(--navy); font-size:16px; font-weight:600}
-  .posts a:hover{color:var(--gold)}
-  .more{margin-top:14px; font-size:14.5px}
-  .more a{color:var(--muted); text-decoration:none}
-  .more a:hover{color:var(--gold)}
+  /* 1. 모은다 → 올린다 → 검산한다 : 세 걸음 */
+  .steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;border-top:1px solid var(--line)}
+  .steps3 div{padding-top:28px}
+  .steps3 .n{display:block;font-size:14px;font-weight:600;color:var(--gold);letter-spacing:.02em;font-variant-numeric:tabular-nums;margin-bottom:14px}
+  .steps3 b{display:block;font-size:21px;font-weight:700;color:var(--navy);letter-spacing:-.015em;margin-bottom:10px}
+  .steps3 p{font-size:16.5px;color:var(--muted)}
 
-  header{padding:56px 0 48px}
-  header h1{font-size:32px; line-height:1.4; font-weight:700; color:var(--navy); letter-spacing:-.02em}
-  header p{margin-top:18px; font-size:17.5px; color:var(--muted); line-height:1.85}
-  header p b{color:var(--ink); font-weight:600}
+  /* 2. 검산 - 남색 한 구역. 이 쪽에서 유일하게 어두운 자리 */
+  /* 바닥 사진: Unsplash MNsXlmQ3r1g (Unsplash 라이선스 - 상업 사용 · 출처 표기 불요). img/check-bg.jpg
+     글자 쪽(왼쪽)은 남색을 덮어 읽히게 하고, 오른쪽으로 갈수록 사진이 드러난다 */
+  .check{position:relative;color:#fff;padding:112px 0;background:var(--navy) url(/img/check-bg.jpg) center right / cover no-repeat;isolation:isolate}
+  .check::before{content:"";position:absolute;inset:0;z-index:-1;
+        background:linear-gradient(90deg, rgba(25,50,72,.96) 0%, rgba(25,50,72,.88) 42%, rgba(25,50,72,.35) 100%)}
+  .check h2{color:#fff;font-size:44px;margin-bottom:18px}
+  .check .lead{color:rgba(255,255,255,.72);margin-bottom:0;font-size:21px;max-width:52ch;word-break:keep-all}
 
-  hr{border:0; border-top:1px solid var(--line); margin:0}
+  /* 3. 맞는 회사 - 두 줄 네 문장 */
+  .fit2{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+  .fit2 div{padding:22px 0;border-top:1px solid var(--line);font-size:20px;font-weight:600;color:var(--navy);letter-spacing:-.015em}
 
-  section{padding:44px 0}
-  h2{font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--gold); margin-bottom:18px}
-
-  .gather{display:grid; gap:12px}
-  .gather div{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 20px}
-  .gather b{display:block; font-size:16px; color:var(--navy); margin-bottom:4px}
-  .gather p{font-size:15px; color:var(--muted)}
-  .after{margin-top:14px; font-size:15.5px; color:var(--muted)}
-  .fit{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-  .fit div{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px; font-size:15.5px; font-weight:500}
-
-  .work{display:grid; gap:12px}
-  .work article,.work a.wcard{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 22px}
-  .work a.wcard{text-decoration:none; display:block}
-  .work a.wcard:hover h3{color:var(--gold)}
-  .work .tag{display:block; font-size:12.5px; color:var(--muted); margin-bottom:3px}
-  .work h3{font-size:17px; font-weight:700; color:var(--navy); margin-bottom:4px}
-  .work p{font-size:15px; color:var(--muted)}
-
-  .checks{list-style:none; display:grid; gap:8px}
-  .checks li{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 18px; font-size:15.5px; display:flex; gap:12px; align-items:baseline}
-  .checks li::before{content:"✓"; color:var(--gold); font-weight:700}
+  /* 4. 하는 일 - 이름 | 한 문장 + 설명. 상자 없이 줄로 */
+  .work2{border-top:1px solid var(--line)}
+  .work2 a{display:grid;grid-template-columns:220px 1fr;gap:24px;padding:30px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+  .work2 a:hover b{color:var(--gold)}
+  .work2 .name{font-size:16px;font-weight:600;color:var(--muted);padding-top:6px}
+  .work2 b{display:block;font-size:24px;font-weight:700;color:var(--navy);letter-spacing:-.02em;margin-bottom:8px}
+  .work2 p{font-size:16.5px;color:var(--muted);max-width:60ch}
+  .work2 + .more{margin-top:22px;font-size:16px}
+  .work2 + .more a{color:var(--navy);font-weight:600;text-decoration:none}
+  .work2 + .more a:hover{color:var(--gold)}
 
 
-  .contact a{display:block; font-size:19px; color:var(--navy); text-decoration:none; font-weight:600}
-  .contact a:hover{color:var(--gold)}
+  /* 6. 글 - 날짜 | 제목 */
+  .posts2{list-style:none;border-top:1px solid var(--line)}
+  .posts2 a{display:grid;grid-template-columns:120px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none}
+  .posts2 time{font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:3px}
+  .posts2 span{font-size:20px;font-weight:600;color:var(--navy);letter-spacing:-.015em}
+  .posts2 a:hover span{color:var(--gold)}
 
-  footer{padding:30px 0 52px; font-size:13.5px; color:var(--muted); line-height:2}
-  footer strong{color:var(--ink); font-weight:600}
+  /* 7. 자주 묻는 질문 - style.css 의 .faq 를 쓴다. 글자만 키운다 */
+  .sec .faq summary{font-size:19px;padding:20px 36px 20px 0}
+  .sec .faq p{font-size:17px;padding-bottom:22px}
 
-  @media (max-width:560px){
-    header{padding:40px 0 36px}
-    header h1{font-size:25px}
-    header p{font-size:16px}
-    .fit{grid-template-columns:1fr}
-    section{padding:34px 0}
+  /* 8. 연락 */
+  .last{padding:96px 0 104px}
+  .last h2{font-size:40px;margin-bottom:28px}
+  .last .btn-main{font-size:17px;padding:18px 26px}
+  .last .mail{display:inline-block;margin-left:18px;font-size:17px;color:var(--muted);text-decoration:none}
+  .last .mail:hover{color:var(--navy)}
+
+  @media (max-width:900px){
+    .hero{padding:48px 0 60px}
+    .hero h1{font-size:40px}
+    .hero p{font-size:18px;margin-top:18px}
+    .sec{padding:60px 0}
+    .sec h2{font-size:28px}
+    .steps3,.fit2{grid-template-columns:1fr}
+    .steps3{gap:0}
+    .steps3 div{padding:24px 0;border-bottom:1px solid var(--line)}
+    .steps3 div:last-child{border-bottom:0}
+    .check{padding:72px 0;background-position:center}
+    .check::before{background:rgba(25,50,72,.82)}
+    .check h2{font-size:30px}
+    .work2 a{grid-template-columns:1fr;gap:6px;padding:24px 0}
+    .work2 b{font-size:21px}
+    .posts2 a{grid-template-columns:1fr;gap:4px}
+    .last{padding:64px 0 72px}
+    .last h2{font-size:30px}
+    .last .mail{display:block;margin:16px 0 0}
   }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-
   <div class="top">
-    <img src="logo.png" alt="루위즈">
-    <span>주식회사 루위즈</span>
-    <nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의</a></nav>
+    <a class="brand" href="/"><img src="logo.png" alt="루위즈"><span>주식회사 루위즈</span></a>
+    <nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav>
   </div>
 
-  <header>
+  <header class="hero">
     <h1>결산부터 분석까지</h1>
-    <p>
-      연결재무제표 · 현금흐름표 · 관리회계 · 자금일보.<br>
-      올린 숫자가 <b>맞는지 먼저 검산합니다.</b>
-    </p>
+    <p>연결재무제표 · 현금흐름표 · 관리회계 · 자금일보.<br>올린 숫자가 <b>맞는지 먼저 검산합니다.</b></p>
+    <div class="acts">
+      <a class="btn-main" href="mailto:contact@luwiz.co.kr">문의하기</a>
+      <a class="btn-sub" href="/product/">제품 보기</a>
+    </div>
   </header>
 
-  <hr>
-
-  <section>
+  <section class="sec">
     <h2>먼저 숫자를 모읍니다</h2>
-    <div class="gather">
-      <div><b>매일 저절로 들어옵니다</b><p>통장 · 법인카드 · 온라인 매출이 하루 한 번 수집됩니다. 옮겨 적지 않습니다.</p></div>
-      <div><b>엑셀은 그대로 올립니다</b><p>ERP에서 뽑은 것도, 손으로 만든 것도 됩니다. 열을 한 번 잡아 두면 다음부터 안 묻습니다.</p></div>
-      <div><b>담기기 전에 검산합니다</b><p>차변 = 대변, 시산표 = 재무제표, 기초 + 증감 = 기말. 안 맞으면 어디서 벌어졌는지 찾습니다.</p></div>
-    </div>
-    <p class="after">그 위에 결산과 분석을 얹습니다.</p>
-  </section>
-
-  <hr>
-
-  <section>
-    <h2>이런 회사에 맞아요</h2>
-    <div class="fit">
-      <div>자회사 · 해외법인이 2곳 이상이에요</div>
-      <div>사업부별로 얼마 남는지 모르겠어요</div>
-      <div>ERP는 있는데 연결은 엑셀로 해요</div>
-      <div>월 마감 보고서를 매달 엑셀로 다시 만들어요</div>
+    <p class="lead">옮겨 적는 일을 없애고, 담기기 전에 맞춰 봅니다. 결산과 분석은 그 위에 얹습니다.</p>
+    <div class="steps3">
+      <div><span class="n">01</span><b>매일 저절로 들어옵니다</b><p>통장 · 법인카드 · 온라인 매출이 하루 한 번 수집됩니다. 옮겨 적지 않습니다.</p></div>
+      <div><span class="n">02</span><b>엑셀은 그대로 올립니다</b><p>ERP에서 뽑은 것도, 손으로 만든 것도 됩니다. 열을 한 번 잡아 두면 다음부터 안 묻습니다.</p></div>
+      <div><span class="n">03</span><b>담기기 전에 검산합니다</b><p>안 맞으면 어디서 벌어졌는지 찾아서 보여 줍니다. 맞은 숫자만 자료실에 들어갑니다.</p></div>
     </div>
   </section>
+</div>
 
-  <hr>
+<section class="check">
+  <div class="wrap">
+    <h2>검산을 통과한 숫자만 담깁니다</h2>
+    <p class="lead">파일을 모으는 것이 아니라, 세 가지가 맞는지 확인한 뒤에 담습니다.</p>
+  </div>
+</section>
 
-  <section>
+<div class="wrap">
+  <section class="sec">
+    <h2>이런 회사에 맞습니다</h2>
+    <div class="fit2">
+      <div>자회사 · 해외법인이 둘 이상이다</div>
+      <div>사업부별로 얼마 남는지 모른다</div>
+      <div>ERP는 있는데 연결은 엑셀로 한다</div>
+      <div>월 마감 보고서를 매달 엑셀로 다시 만든다</div>
+    </div>
+  </section>
+
+  <section class="sec">
     <h2>하는 일</h2>
-    <div class="work">
-      <a class="wcard" href="/product/consolidation.html">
-        <span class="tag">연결재무제표</span>
-        <h3>엑셀 시트가 너무 많아 숫자가 엉키지 않으세요?</h3>
-        <p>분개 한 줄부터 연결재무제표까지 한 줄로 이어져요. 버전이 남아요.</p>
+    <div class="work2">
+      <a href="/product/consolidation.html">
+        <span class="name">연결재무제표</span>
+        <div><b>분개 한 줄에서 연결재무제표까지 한 줄로 이어집니다</b><p>내부거래 · 투자자본 상계 · 비지배지분을 조정분개로 남기고, 확정한 결산은 버전으로 보관합니다.</p></div>
       </a>
-      <a class="wcard" href="/product/cash-flow-statement.html">
-        <span class="tag">현금흐름표</span>
-        <h3>작성은 하는데 시간이 오래 걸리지 않으세요?</h3>
-        <p>분개장 또는 재무상태표·손익계산서에서 바로 만들어요. 손익계산서와 대조해서 틀리면 알려 줘요.</p>
+      <a href="/product/cash-flow-statement.html">
+        <span class="name">현금흐름표</span>
+        <div><b>분개장이나 재무상태표 · 손익계산서에서 바로 만듭니다</b><p>손익계산서와 대조해서 틀린 자리를 알려 줍니다. 간접법 조정 명세가 같이 나옵니다.</p></div>
       </a>
-      <a class="wcard" href="/product/management-accounting.html">
-        <span class="tag">관리회계 · 사업부별 손익</span>
-        <h3>사업부별로 이익인지 손실인지 궁금하지 않으세요?</h3>
-        <p>분개에 사업부가 붙어요. 공통비도 나눠요.</p>
+      <a href="/product/management-accounting.html">
+        <span class="name">관리회계</span>
+        <div><b>사업부별로 얼마가 남는지 분개에서 바로 봅니다</b><p>분개 줄에 사업부가 붙고, 공통비는 정한 기준으로 나뉩니다. 거래별 손익까지 내려갑니다.</p></div>
       </a>
-      <a class="wcard" href="/product/daily-cash-report.html">
-        <span class="tag">자금일보</span>
-        <h3>현금이 갑자기 부족해서 놀란 적 없으세요?</h3>
-        <p>계약과 지급 일정이 자금월보 예측으로 들어가요.</p>
+      <a href="/product/daily-cash-report.html">
+        <span class="name">자금일보</span>
+        <div><b>통장을 그대로 읽어 오늘의 자금과 다음 달 자금을 봅니다</b><p>계약과 지급 일정이 자금월보 예측으로 들어갑니다. 원화 · 달러 통장을 한 표에서 봅니다.</p></div>
       </a>
     </div>
-    <p class="more"><a href="/product/">월 마감 · 전표 스크리닝 · 보고서 · 구독 관리도 있어요 →</a></p>
+    <p class="more"><a href="/product/">월 마감 · 전표 스크리닝 · 보고서 · 구독 관리 →</a></p>
   </section>
-
-  <hr>
-
-  <section>
+  <section class="sec">
     <h2>글</h2>
-    <ul class="posts">
-      <li><a href="/blog/future-starts-from-past.html">미래는 과거에서 출발한다</a></li>
-      <li><a href="/blog/consolidation-is-hard.html">연결회계, 이론보다 작성이 어렵다</a></li>
-      <li><a href="/blog/finance-is-silent.html">재무는 침묵의 장기이자 근력이다</a></li>
+    <ul class="posts2">
+      <li><a href="/blog/who-makes-consolidated-statements.html"><time>2026-10-02</time><span>연결재무제표는 누가 만들어야 하나</span></a></li>
+      <li><a href="/blog/ai-starts-from-clean-numbers.html"><time>2026-10-01</time><span>AI는 정리된 숫자에서 시작한다</span></a></li>
+      <li><a href="/blog/future-starts-from-past.html"><time>2026-09-29</time><span>미래는 과거에서 출발한다</span></a></li>
+      <li><a href="/blog/consolidation-is-hard.html"><time>2026-09-29</time><span>연결회계, 이론보다 작성이 어렵다</span></a></li>
     </ul>
     <p class="more"><a href="/blog/">글 전체 보기 →</a></p>
   </section>
 
-  <hr>
-
-  <section>
+  <section class="sec">
     <h2>자주 묻는 질문</h2>
     <div class="faq">
       <details>
         <summary>더존이 아니어도 되나요?</summary>
-        <p>엑셀로 뽑을 수 있으면 돼요. 영림원 · SAP · 직접 만든 엑셀도 올려요.</p>
+        <p>엑셀로 뽑을 수 있으면 됩니다. 영림원 · SAP · 직접 만든 엑셀도 올립니다.</p>
       </details>
       <details>
         <summary>설치해야 하나요?</summary>
-        <p>아니요. 웹 브라우저로 써요.</p>
+        <p>아니요. 웹 브라우저로 씁니다.</p>
+      </details>
+      <details>
+        <summary>자료는 어디에 보관되나요?</summary>
+        <p>AWS 서울 리전입니다. 회사마다 분리되고, 매일 백업합니다.</p>
       </details>
     </div>
   </section>
 
-  <hr>
-
-  <section class="contact">
-    <h2>연락</h2>
-    <a href="mailto:contact@luwiz.co.kr">contact@luwiz.co.kr</a>
+  <section class="last">
+    <a class="btn-main" href="mailto:contact@luwiz.co.kr">문의하기</a>
+    <a class="mail" href="mailto:contact@luwiz.co.kr">contact@luwiz.co.kr</a>
   </section>
 
   <hr>
-
   <footer>
     <strong>주식회사 루위즈</strong><br>
     사업자등록번호 333-87-04299<br>
     <a href="/notice/">공고</a>
   </footer>
-
 </div>
 
 </body>

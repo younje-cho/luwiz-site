@@ -39,7 +39,7 @@ GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S
 CSS = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="/style.css">"""
 
-TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의</a></nav></div>"""
+TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav></div>"""
 FOOTER = """<hr>
   <footer><strong>주식회사 루위즈</strong><br>사업자등록번호 333-87-04299<br><a href="/notice/">공고</a></footer>"""
 
