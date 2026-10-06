@@ -44,6 +44,34 @@ def inline(s):
     return s
 
 
+NUM = re.compile(r"^[(+\-]?[\d,.]+\s*[억만원%]*\)?$")
+RULE = re.compile(r"^[\s─━—\-=]+$")
+
+
+def grid(lines):
+    """코드 블록 → 테두리 없는 표. 네이버 편집기는 <pre> 의 줄바꿈을 먹는다(2026-10-07 글 07 - 표가 한 줄로 붙었다).
+    두 칸 이상 띄운 곳에서 이름 · 값을 가르고, 값이 숫자면 오른쪽 정렬, ─── 줄은 다음 줄 위 테두리로, 들여쓰기는 왼쪽 여백으로."""
+    rows, top = [], False
+    for ln in lines:
+        if not ln.strip():
+            continue
+        if RULE.match(ln):
+            top = True
+            continue
+        indent = len(ln) - len(ln.lstrip(" "))
+        cells = re.split(r"\s{2,}", ln.strip(), maxsplit=1)
+        name, val = cells[0], (cells[1] if len(cells) > 1 else "")
+        line = "border-top:1px solid #999;" if top else ""
+        pad = "padding:4px 16px 4px %dpx;" % (4 + indent * 8)
+        right = "text-align:right;" if NUM.match(val) else "text-align:left;"
+        rows.append('<tr><td style="%sborder:0;%s">%s</td>'
+                    '<td style="%spadding:4px 4px 4px 24px;border:0;%swhite-space:nowrap">%s</td></tr>'
+                    % (pad, line, html.escape(name), right, line, html.escape(val)))
+        top = False
+    return ('<table style="border-collapse:collapse;margin:8px 0;font-size:15px;background:#f7f7f7">%s</table>'
+            % "".join(rows))
+
+
 def convert(md):
     body = md.split("---\n", 2)[2] if md.startswith("---\n") else md
     out, lines, i = [], body.split("\n"), 0
@@ -57,9 +85,9 @@ def convert(md):
             i += 1
             buf = []
             while i < len(lines) and not lines[i].strip().startswith("```"):
-                buf.append(html.escape(lines[i]))
+                buf.append(lines[i])
                 i += 1
-            out.append("<pre>%s</pre>" % "\n".join(buf))
+            out.append(grid(buf))
         elif t.startswith("#"):                                   # 제목
             n = len(t) - len(t.lstrip("#"))
             out.append("<h%d>%s</h%d>" % (n, inline(t.lstrip("# ")), n))
@@ -122,6 +150,10 @@ def demo():
     assert "<strong>굵게</strong>" in b[1] and "<code>코드</code>" in b[1], b
     assert b[2] == "<ul><li>하나</li><li>둘</li></ul>", b
     assert "&amp;" in convert("A & B\n")[0]          # 이스케이프가 먼저다
+    g = convert("```\n받은 돈        120억\n  감가상각비   +5억\n            ──────\n영업활동    간접법 — 거꾸로\n```\n")[0]
+    assert "<pre" not in g and g.count("<tr>") == 3, g                    # 줄마다 한 행 · 구분선은 행이 아니다
+    assert "text-align:right" in g.split("<tr>")[1] and "padding:4px 16px 4px 20px" in g, g   # 금액 오른쪽 · 들여쓰기
+    assert "border-top:1px solid #999" in g.split("<tr>")[3] and "text-align:left" in g.split("<tr>")[3], g
     print("ok")
 
 
