@@ -34,6 +34,8 @@ GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // 대표님 기기는 안 센다(2026-10-08) - 주소 끝 ?me=1 로 한 번 열면 그 브라우저는 꺼지고, ?me=0 이면 다시 켜진다
+  try { var q = location.search; if (q.indexOf('me=1') >= 0) localStorage.setItem('luwiz_me', '1'); if (q.indexOf('me=0') >= 0) localStorage.removeItem('luwiz_me'); if (localStorage.getItem('luwiz_me')) window['ga-disable-G-KMZVP6S2VE'] = true; } catch (e) {}
   gtag('js', new Date());
   gtag('config', 'G-KMZVP6S2VE');
 </script>"""
