@@ -28,6 +28,7 @@ SLUG = {
     "05 연결재무제표는 누가 만들어야 하나": "who-makes-consolidated-statements",
     "06 현금흐름표는 왜 따로 있나": "why-cash-flow-statement",
     "07 현금흐름표, 직접법과 간접법": "direct-vs-indirect-cash-flow",
+    "08 현금흐름표 간접법, 어디서 안 맞나": "where-indirect-cash-flow-breaks",
 }
 
 GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
