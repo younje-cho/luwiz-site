@@ -5,6 +5,9 @@
     py indexnow.py /blog/x.html    고른 주소만
     py indexnow.py --check         스스로 검사
 
+Git Bash 에서 `/blog/…` 를 넘기면 윈도 경로(C:/Program Files/Git/blog/…)로 바뀌어 422 가 난다 -
+앞에 `MSYS_NO_PATHCONV=1` 을 붙이거나 주소를 https:// 부터 통째로 넘긴다(2026-10-10).
+
 네이버 서치어드바이저가 2023-07 부터 IndexNow 를 지원한다. 한 번 쏘면 참여 검색엔진
 (네이버 · 빙 · Yandex · Seznam …)에 같이 퍼진다. **구글은 참여하지 않는다** -
 구글은 서치 콘솔 화면에서 손으로 색인 요청한다.
