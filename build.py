@@ -32,6 +32,9 @@ SLUG = {
     "09 우리 퍼널은 어디서 새고 있나": "where-is-the-funnel-leaking",
 }
 
+# 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
+CATS = ["회계 이야기", "숫자로 보는 사업"]
+
 GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -139,6 +142,9 @@ def main():
         # 앞머리에 `발행: 2026-09-29` 를 적는다. 없으면 쓴 날로 떨어진다.
         m = re.search(r"^발행:\s*(\S+)", md, flags=re.M) or re.search(r"^쓴 날:\s*(\S+)", md, flags=re.M)
         date = m.group(1) if m else ""
+        # **분류는 네이버 카테고리와 같게** - 앞머리 `분류: 숫자로 보는 사업`. 없으면 회계 이야기(2026-10-13)
+        c = re.search(r"^분류:\s*(.+)$", md, flags=re.M)
+        cat = c.group(1).strip() if c else CATS[0]
         desc = first_para(md)
         doc = f"""<!doctype html>
 <html lang="ko">
@@ -160,7 +166,7 @@ def main():
   {TOP}
   <article>
     <h1>{html.escape(title)}</h1>
-    <p class="date">{date}</p>
+    <p class="date">{html.escape(cat)} · {date}</p>
 {body_of(md)}
   </article>
   <hr>
@@ -173,11 +179,15 @@ def main():
 </html>
 """
         io.open(os.path.join(OUT, slug + ".html"), "w", encoding="utf-8", newline="\n").write(doc)
-        posts.append((title, slug, date))
+        posts.append((title, slug, date, cat))
 
-    items = "\n".join(
-        f'      <li><a href="/blog/{s}.html">{html.escape(t)}<span class="d">{d}</span></a></li>'
-        for t, s, d in reversed(posts))
+    items = ""
+    for k in CATS + sorted({p[3] for p in posts} - set(CATS)):
+        rows = "\n".join(
+            f'      <li><a href="/blog/{s}.html">{html.escape(t)}<span class="d">{d}</span></a></li>'
+            for t, s, d, c in reversed(posts) if c == k)
+        if rows:
+            items += f'    <h2>{html.escape(k)}</h2>\n    <ol>\n{rows}\n    </ol>\n'
     idx = f"""<!doctype html>
 <html lang="ko">
 <head>
@@ -197,10 +207,7 @@ def main():
   {TOP}
   <div class="list">
     <h1>글</h1>
-    <ol>
-{items}
-    </ol>
-  </div>
+{items}  </div>
   {FOOTER}
 </div>
 </body>
@@ -208,8 +215,8 @@ def main():
 """
     io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8", newline="\n").write(idx)
     print(f"ok  글 {len(posts)}장 + 목록")
-    for t, s, d in posts:
-        print(f"    /blog/{s}.html   {t}")
+    for t, s, d, c in posts:
+        print(f"    /blog/{s}.html   {c} · {t}")
     sitemap()
 
 def sitemap():

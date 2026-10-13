@@ -116,6 +116,8 @@ th{background:var(--wash);font-weight:600;color:var(--navy)}
 /* 목록 */
 .list{padding:48px 0;max-width:760px}
 .list h1{font-size:34px;font-weight:800;color:var(--navy);margin-bottom:28px;letter-spacing:-.03em}
+.list h2{font-size:19px;font-weight:700;color:var(--navy);margin:36px 0 10px}
+.list h2:first-of-type{margin-top:0}
 .list ol{list-style:none;border-top:1px solid var(--line)}
 /* 한 줄에 제목 · 날짜. 글이 쌓여도 한 화면에 열 편은 든다 (2026-10-04 대표님: 「5개인데 거의 꽉 차네」) */
 .list li{border-bottom:1px solid var(--line)}
