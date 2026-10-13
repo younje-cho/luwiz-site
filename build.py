@@ -29,6 +29,7 @@ SLUG = {
     "06 현금흐름표는 왜 따로 있나": "why-cash-flow-statement",
     "07 현금흐름표, 직접법과 간접법": "direct-vs-indirect-cash-flow",
     "08 현금흐름표 간접법, 어디서 안 맞나": "where-indirect-cash-flow-breaks",
+    "09 우리 퍼널은 어디서 새고 있나": "where-is-the-funnel-leaking",
 }
 
 GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
