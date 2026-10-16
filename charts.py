@@ -14,6 +14,7 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from matplotlib import font_manager
 
 #: 그림은 **원고 옆**에 둔다 - 옵시디언에서도 보여야 글을 쓰면서 확인한다.
@@ -51,6 +52,17 @@ def bars(ax, names, vals, fmt, title, note):
             va="bottom", ha="left")
 
 
+def center_head(ax):
+    """제목 · 한 줄 설명을 그래프 가운데로 - 나란히 놓은 그래프에서 어느 제목이 어느 그래프 것인지 바로 읽히게."""
+    title = ax.get_title(loc="left")
+    ax.set_title("", loc="left")
+    ax.set_title(title, fontsize=13, color=INK, pad=30, loc="center", fontweight="bold")
+    note = [t for t in ax.texts if t.get_transform() == ax.transAxes]   # 값 글자는 데이터 좌표라 안 걸린다
+    for t in note:
+        t.set_x(.5)
+        t.set_ha("center")
+
+
 def funnel_gap():
     """09편 - 같은 표를 두 가지로 보면 손댈 칸이 바뀐다."""
     names = ["상품 상세 열람", "장바구니 담기", "결제 시작", "결제 완료"]
@@ -62,7 +74,12 @@ def funnel_gap():
     bars(b, names, lift, lambda v: "—" if v == 0 else "+%s건" % format(int(v), ","),
          "되돌리면 늘어나는 주문", "가장 큰 칸은 장바구니")
     b.tick_params(labelleft=False)           # 줄 이름은 왼쪽 그래프와 같다 - 두 번 쓰지 않는다
-    fig.tight_layout(pad=1.4)
+    center_head(a)
+    center_head(b)
+    fig.tight_layout(pad=1.4, w_pad=4)
+    # 사이에 점선 - 왼쪽 +0.4%p 가 오른쪽 그래프의 값처럼 읽혔다(2026-10-16 대표님, A안)
+    x = (a.get_position().x1 + b.get_position().x0) / 2
+    fig.add_artist(Line2D([x, x], [.04, .98], transform=fig.transFigure, color=GREY, lw=1, ls=(0, (4, 4))))
     p = os.path.join(OUT, "funnel-gap.png")
     fig.savefig(p, bbox_inches="tight", facecolor="white")
     plt.close(fig)
