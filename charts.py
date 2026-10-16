@@ -33,7 +33,8 @@ def bars(ax, names, vals, fmt, title, note):
     top = max(range(len(vals)), key=lambda i: abs(vals[i]))
     ax.barh(names, vals, color=[HOT if i == top else GREY for i in range(len(vals))],
             height=.62, zorder=3)
-    ax.set_title(title, fontsize=13, color=INK, pad=30, loc="left", fontweight="bold")
+    ax.text(0, 1.16, title, transform=ax.transAxes, fontsize=13, color=INK, fontweight="bold",
+            va="bottom", ha="left", gid="head")
     ax.invert_yaxis()
     ax.axvline(0, color="#94a3b8", lw=.9, zorder=4)
     for s in ("top", "right", "left", "bottom"):
@@ -48,7 +49,19 @@ def bars(ax, names, vals, fmt, title, note):
                 fontweight="bold" if i == top else "normal")
     ax.set_xlim(min(0, min(vals)) - span * .35, max(0, max(vals)) + span * .35)
     ax.text(0, 1.035, note, transform=ax.transAxes, fontsize=10, color="#64748b",
-            va="bottom", ha="left")
+            va="bottom", ha="left", gid="head")
+
+
+def heads_left(fig, axes):
+    """제목 · 한 줄 설명을 막대가 아니라 **항목 이름의 왼쪽 끝**에 맞춘다(2026-10-16 대표님: 「그림의 제목은 왼쪽으로」)."""
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    for ax in axes:
+        x0 = min(t.get_window_extent(r).x0 for t in ax.get_yticklabels() if t.get_text())
+        x = ax.transAxes.inverted().transform((x0, 0))[0]
+        for t in ax.texts:
+            if t.get_gid() == "head":
+                t.set_x(x)
 
 
 def funnel_gap():
@@ -58,10 +71,11 @@ def funnel_gap():
     lift = [0, 468, 29, 384]                 # 되돌렸을 때 늘어나는 주문(건)
     fig, (a, b) = plt.subplots(1, 2, figsize=(11.4, 3.5), dpi=150)
     bars(a, names, gap, lambda v: "%+.1f%%p" % v,
-         "기준 대비 차이", "가장 벌어진 칸은 결제 완료")
+         "기준 대비 차이", "가장 많이 떨어진 칸은 결제 완료")
     bars(b, names, lift, lambda v: "—" if v == 0 else "+%s건" % format(int(v), ","),
          "되돌리면 늘어나는 주문", "가장 큰 칸은 장바구니")
     fig.tight_layout(pad=1.4)
+    heads_left(fig, (a, b))
     p = os.path.join(OUT, "funnel-gap.png")
     fig.savefig(p, bbox_inches="tight", facecolor="white")
     plt.close(fig)
