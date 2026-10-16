@@ -105,12 +105,18 @@ def convert(md):
                 i += 1
             i -= 1
             cells = []
+            # 숫자 열은 오른쪽 - 네이버 편집기는 붙여 넣은 뒤 정렬을 바꿔도 칸 안 서식이 이겨서 처음부터 박는다(2026-10-16)
+            body = [r for k, r in enumerate(rows) if k and not all(set(c) <= set(" -:") for c in r)]
+            num = [bool(body) and all(re.fullmatch(r"[−+\-—]?[\d,.]*\d[\d,.]*\s*(%p?|건|원|명|배)?|—|-", c)
+                                      for c in (r[j] for r in body if j < len(r)))
+                   for j in range(len(rows[0]))]
             for k, r in enumerate(rows):
                 if k == 1 and all(set(c) <= set(" -:") for c in r):   # 구분선
                     continue
                 tag = "th" if k == 0 else "td"
                 cells.append("<tr>%s</tr>" % "".join(
-                    "<%s>%s</%s>" % (tag, inline(c), tag) for c in r))
+                    "<%s%s>%s</%s>" % (tag, ' style="text-align:right"' if j < len(num) and num[j] else "",
+                                       inline(c), tag) for j, c in enumerate(r)))
             out.append("<table>%s</table>" % "".join(cells))
         elif re.match(r"^[-*•]\s", t):                            # 목록
             items = []
