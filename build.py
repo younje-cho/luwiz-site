@@ -30,6 +30,7 @@ SLUG = {
     "07 현금흐름표, 직접법과 간접법": "direct-vs-indirect-cash-flow",
     "08 현금흐름표 간접법, 어디서 안 맞나": "where-indirect-cash-flow-breaks",
     "09 우리 퍼널은 어디서 새고 있나": "where-is-the-funnel-leaking",
+    "10 퍼널에서 어디부터 고쳐야 하나": "where-to-fix-the-funnel-first",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
