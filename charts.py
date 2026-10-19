@@ -114,7 +114,99 @@ def funnel_basic():
     return p
 
 
-ALL = [funnel_basic, funnel_gap]
+MONTHS = ["11월", "12월", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월"]
+
+
+def conv_trend():
+    """11편 - 열두 달 전체 전환율과 평소 범위(중위값 ±0.2%p). 이번 달 10월만 색을 준다."""
+    conv = [3.45, 3.30, 2.75, 2.85, 3.05, 3.15, 3.20, 3.00, 2.95, 3.05, 3.25, 3.12]
+    mid = 3.08                                          # 중위값(3.085)을 글과 같게 반올림
+    fig, ax = plt.subplots(figsize=(10.4, 3.9), dpi=150)
+    x = range(len(conv))
+    ax.axhspan(mid - .2, mid + .2, color="#e2e8f0", zorder=1, lw=0)
+    ax.text(len(conv) - .5, mid + .2, "평소 범위 %.2f~%.2f%%" % (mid - .2, mid + .2),
+            ha="right", va="bottom", fontsize=10, color="#64748b")
+    ax.plot(x, conv, color="#94a3b8", lw=2, marker="o", ms=5, zorder=3)
+    ax.plot([len(conv) - 1], [conv[-1]], marker="o", ms=9, color=HOT, zorder=4)
+    ax.text(len(conv) - 1, conv[-1] - .09, "이번 달 %.2f%%" % conv[-1], ha="center", va="top",
+            fontsize=11, color=HOT, fontweight="bold")
+    for i in (0, 1, 2, 3):                             # 범위 밖 네 달 - 연말 프로모션 · 연초
+        ax.text(i, conv[i] + (.06 if conv[i] > mid else -.09), "%.2f%%" % conv[i], ha="center",
+                va="bottom" if conv[i] > mid else "top", fontsize=10, color=INK)
+    ax.set_xticks(list(x), MONTHS)
+    ax.set_ylim(2.5, 3.65)
+    ax.set_yticks([])
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color("#cbd5e1")
+    ax.tick_params(axis="x", length=0, labelsize=10.5, colors=INK)
+    ax.set_title("열두 달 전체 전환율", fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, "conv-trend.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+def refund_lag():
+    """12편 - 평소 대비 몇 배인가. 환불월로 센 환불율은 늦게 오르고 늦게 내려온다.
+    결제월 환불율(5%)이 7 · 8월만 9%, 환불은 그달 40% · 다음 달 45% · 그다음 달 15%."""
+    m = ["5월", "6월", "7월", "8월", "9월", "10월"]
+    by_refund = [5.0, 5.0, 6.6, 8.4, 7.4, 5.6]          # 그달 환불 ÷ 그달 매출
+    first = [2.0, 2.0, 3.6, 3.6, 2.0, 2.0]              # 그달 결제분의 첫 달 환불율
+    a = [v / by_refund[0] for v in by_refund]
+    b = [v / first[0] for v in first]
+    fig, ax = plt.subplots(figsize=(10.4, 3.9), dpi=150)
+    x = range(len(m))
+    ax.axhline(1, color="#cbd5e1", lw=1, zorder=1)
+    ax.plot(x, a, color="#94a3b8", lw=2.4, marker="o", ms=5, zorder=3)
+    ax.plot(x, b, color=HOT, lw=2.4, marker="o", ms=5, zorder=4)
+    ax.text(4.08, a[4] + .03, "그달 환불 ÷ 그달 매출\n8월에 꼭대기, 9월에도 높음", ha="left", va="bottom", fontsize=10.5,
+            color="#64748b", linespacing=1.4)
+    ax.text(2.5, b[2] + .05, "결제한 달의 첫 달 환불율  7월에 바로 뜀", ha="center", va="bottom", fontsize=10.5,
+            color=HOT, fontweight="bold")
+    ax.set_xticks(list(x), m)
+    ax.set_ylim(.8, 2.05)
+    ax.set_yticks([1], ["평소"])
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color("#cbd5e1")
+    ax.tick_params(length=0, labelsize=10.5, colors=INK)
+    ax.set_title("환불율, 평소의 몇 배인가", fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, "refund-lag.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+def funnel_split():
+    """11편 - 유입 경로별 전환율 변화(지난달 → 이번 달, %p). 합계는 0 인데 광고는 빠지고 재방문은 올랐다."""
+    names = ["광고", "검색", "재방문", "합계"]
+    diff = [-0.70, 0.00, 2.03, 0.00]
+    color = [HOT, GREY, "#f59e0b", "#94a3b8"]
+    fig, ax = plt.subplots(figsize=(8.6, 3.4), dpi=150)
+    ax.barh(names, diff, color=color, height=.58, zorder=3)
+    ax.invert_yaxis()
+    ax.axvline(0, color="#94a3b8", lw=.9, zorder=4)
+    for i, v in enumerate(diff):
+        ax.text(v + (.08 if v >= 0 else -.08), i, "%+.2f%%p" % v if v else "변화 없음", va="center",
+                ha="left" if v >= 0 else "right", fontsize=11,
+                color=INK if i == 3 else color[i] if v else "#64748b", fontweight="bold" if v else "normal")
+    ax.set_xlim(-1.4, 2.8)
+    ax.set_xticks([])
+    for s in ("top", "right", "left", "bottom"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(axis="y", length=0, labelsize=11.5, colors=INK)
+    ax.set_title("유입 경로별 전환율, 지난달 대비", fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, "funnel-split.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, funnel_split]
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
