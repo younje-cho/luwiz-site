@@ -180,6 +180,68 @@ def refund_lag():
     return p
 
 
+#: 12편 예시 - 결제월 환불율(평소 5%, 7 · 8월 9%), 환불은 그달 40% · 다음 달 45% · 그다음 달 15%. 10월 말 기준
+COHORT_M = ["5월", "6월", "7월", "8월", "9월", "10월"]
+COHORT_RATE = [5, 5, 9, 9, 5, 5]
+COHORT_SPLIT = [.40, .45, .15]
+
+
+def cohort_cells():
+    """[결제월][환불월] 환불율(%) - 10월 뒤 칸은 None(아직 안 옴)."""
+    n = len(COHORT_M)
+    cells = [[None] * n for _ in range(n)]
+    for i, r in enumerate(COHORT_RATE):
+        for k, s in enumerate(COHORT_SPLIT):
+            if i + k < n:
+                cells[i][i + k] = round(r * s, 2)
+    return cells
+
+
+def refund_cohort():
+    """12편 - 하이메디 대시보드 '환불 코호트 - 비율'과 같은 모양. 아래 결제월 · 오른쪽 환불월 · 끝에 지금까지 합계."""
+    cells = cohort_cells()
+    n = len(COHORT_M)
+    fig, ax = plt.subplots(figsize=(10.4, 4.6), dpi=150)
+    ax.set_xlim(-.5, n + .9)
+    ax.set_ylim(n - .5, -1.1)
+    for i in range(n):
+        hot = COHORT_RATE[i] > 5
+        for j in range(n + 1):
+            if j == n:
+                tot = sum(v for v in cells[i] if v)
+                full = i + len(COHORT_SPLIT) <= n
+                ax.add_patch(plt.Rectangle((j + .1, i - .45), .9, .9, color="#f1f5f9", zorder=1))
+                ax.text(j + .55, i, ("%g%%" % round(tot, 2)) + ("" if full else "\n(덜 참)"), ha="center", va="center",
+                        fontsize=10.5 if full else 9.5, color="#991b1b" if hot else INK, fontweight="bold")
+                continue
+            v = cells[i][j]
+            if v is None:
+                continue
+            a = min(v / 4.2, 1)
+            face = (1 - .85 * a * (37 / 255 * 0 + 1), 1 - .6 * a, 1 - .15 * a) if not hot else (1 - .1 * a, 1 - .55 * a, 1 - .55 * a)
+            ax.add_patch(plt.Rectangle((j - .45, i - .45), .9, .9, color=face, zorder=1))
+            if i == j:
+                ax.add_patch(plt.Rectangle((j - .45, i - .45), .9, .9, fill=False, ec=INK, lw=1.6, zorder=2))
+            ax.text(j, i, "%.1f" % v if v * 10 % 1 == 0 else "%.2f" % v, ha="center", va="center", fontsize=10.5,
+                    color="#991b1b" if hot else INK, fontweight="bold" if i == j else "normal", zorder=3)
+    for j, mname in enumerate(COHORT_M):
+        ax.text(j, -.8, mname, ha="center", va="center", fontsize=10.5, color="#64748b")
+    ax.text(n + .55, -.8, "합계", ha="center", va="center", fontsize=10.5, color="#64748b")
+    ax.set_yticks(range(n), COHORT_M)
+    ax.set_xticks([])
+    ax.text(-.5, -1.45, "가로줄: 결제한 달   칸: 환불된 달   단위: 그 달 결제액 중 %   굵은 테두리: 첫 달",
+            ha="left", va="center", fontsize=9.5, color="#64748b")
+    for s in ("top", "right", "left", "bottom"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(length=0, labelsize=10.5, colors=INK)
+    ax.set_title("환불 코호트 (10월 말 기준)", fontsize=13, color=INK, pad=34, loc="left", fontweight="bold")
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, "refund-cohort.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
 def funnel_split():
     """11편 - 유입 경로별 전환율 변화(지난달 → 이번 달, %p). 합계는 0 인데 광고는 빠지고 재방문은 올랐다."""
     names = ["광고", "검색", "재방문", "합계"]
@@ -206,7 +268,7 @@ def funnel_split():
     return p
 
 
-ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, funnel_split]
+ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, refund_cohort, funnel_split]
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)

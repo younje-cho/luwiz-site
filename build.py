@@ -32,6 +32,7 @@ SLUG = {
     "09 우리 퍼널은 어디서 새고 있나": "where-is-the-funnel-leaking",
     "10 퍼널에서 어디부터 고쳐야 하나": "where-to-fix-the-funnel-first",
     "11 퍼널을 갈라 보면 보이는 것": "split-the-funnel",
+    "12 환불율이 오르는 걸 늦게 아는 이유": "refund-rate-by-cohort",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
