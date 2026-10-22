@@ -96,16 +96,19 @@ def body_of(md):
             out.append(f'<figure><img src="{src}" alt="{inline(m.group(1))}">'
                        f'<figcaption>{inline(m.group(1))}</figcaption></figure>')
         elif ln.startswith("|") and ln.rstrip().endswith("|"):
-            rows = []
+            rows, right = [], set()
             while i < len(lines) and lines[i].startswith("|"):
                 cells = [c.strip() for c in lines[i].strip().strip("|").split("|")]
-                if not all(re.fullmatch(r":?-{2,}:?", c) for c in cells):
+                if all(re.fullmatch(r":?-{2,}:?", c) for c in cells):
+                    right = {k for k, c in enumerate(cells) if c.endswith(":")}   # `---:` 는 오른쪽 맞춤(숫자 열)
+                else:
                     rows.append(cells)
                 i += 1
             i -= 1
             tag, buf = "th", []
             for r in rows:
-                buf.append("<tr>" + "".join(f"<{tag}>{inline(c)}</{tag}>" for c in r) + "</tr>")
+                buf.append("<tr>" + "".join(f'<{tag}{" style=\"text-align:right\"" if k in right else ""}>{inline(c)}</{tag}>'
+                                            for k, c in enumerate(r)) + "</tr>")
                 tag = "td"
             out.append("<table>" + "".join(buf) + "</table>")
         elif ln.startswith("* ") or ln.startswith("- "):
