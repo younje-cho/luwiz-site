@@ -242,6 +242,38 @@ def refund_cohort():
     return p
 
 
+#: 13편 예시 - 5 · 6월 평균 한 달(만 원). 결제액 · 광고비 · 그 달 고객이 결국 환불한 비율(코호트 합계)
+CHANNELS = {"인스타그램 광고": (8000, 2000, .12), "네이버 검색광고": (8000, 2150, .02),
+            "자연 검색": (5000, 0, .016), "재방문": (4000, 0, .0125)}
+
+
+def refund_channel():
+    """16편 - 광고 두 곳의 ROAS 를 결제액 기준과 환불 뺀 기준으로. 순위가 뒤집힌다."""
+    ads = [(k, p / c, p * (1 - r) / c) for k, (p, c, r) in CHANNELS.items() if c]
+    fig, ax = plt.subplots(figsize=(8.6, 3.6), dpi=150)
+    y = range(len(ads))
+    h = .34
+    ax.barh([i - h / 2 for i in y], [a[1] for a in ads], height=h, color=GREY, zorder=3, label="결제액 기준")
+    ax.barh([i + h / 2 for i in y], [a[2] for a in ads], height=h, color=HOT, zorder=3, label="환불 뺀 기준")
+    for i, (_, g, n) in enumerate(ads):
+        ax.text(g + .04, i - h / 2, "%.2f" % g, va="center", fontsize=10.5, color="#64748b")
+        ax.text(n + .04, i + h / 2, "%.2f" % n, va="center", fontsize=10.5, color=HOT, fontweight="bold")
+    ax.set_yticks(list(y), [a[0] for a in ads])
+    ax.invert_yaxis()
+    ax.set_xlim(0, 4.6)
+    ax.set_xticks([])
+    for s in ("top", "right", "left", "bottom"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(axis="y", length=0, labelsize=11.5, colors=INK)
+    ax.legend(loc="lower right", bbox_to_anchor=(1, 1.0), ncol=2, frameon=False, fontsize=10)
+    ax.set_title("광고비 1원당 매출(ROAS)", fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, "refund-channel.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
 def funnel_split():
     """11편 - 유입 경로별 전환율 변화(지난달 → 이번 달, %p). 합계는 0 인데 광고는 빠지고 재방문은 올랐다."""
     names = ["광고", "검색", "재방문", "합계"]
@@ -268,7 +300,42 @@ def funnel_split():
     return p
 
 
-ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, refund_cohort, funnel_split]
+#: 13편 - 한 달 결제액이 영업이익까지 내려가는 길. 글의 표와 같은 숫자(만 원)
+METRIC_MAP = [("결제액", 25000), ("환불", -1250), ("원가, 배송, 수수료", -13250),
+              ("광고비", -4150), ("고정비", -5000)]
+
+
+def metric_map():
+    """13편 - 결제액에서 영업이익까지 폭포. 지표마다 이 길의 한 칸을 맡는다."""
+    rows, run = [], 0
+    for k, v in METRIC_MAP:
+        rows.append((k, run if v > 0 else run + v, abs(v), v))
+        run += v
+    assert run == 1350, run
+    rows.append(("영업이익", 0, run, run))
+    fig, ax = plt.subplots(figsize=(8.6, 3.8), dpi=150)
+    for i, (k, b, h, v) in enumerate(rows):
+        c = HOT if i in (0, len(rows) - 1) else GREY
+        ax.bar(i, h, bottom=b, color=c, width=.6, zorder=3)
+        ax.text(i, b + h + 350, "{:,}".format(v) if v > 0 else "({:,})".format(-v),
+                ha="center", fontsize=10.5, color=HOT if c == HOT else "#64748b",
+                fontweight="bold" if c == HOT else "normal")
+    ax.set_xticks(range(len(rows)), [r[0] for r in rows])
+    ax.set_ylim(0, 28000)
+    ax.set_yticks([])
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color(GREY)
+    ax.tick_params(axis="x", length=0, labelsize=10.5, colors=INK)
+    ax.set_title("한 달 결제액이 영업이익이 되기까지 (만 원)", fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, "metric-map.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, refund_cohort, refund_channel, funnel_split, metric_map]
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
