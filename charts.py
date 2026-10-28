@@ -335,7 +335,177 @@ def metric_map():
     return p
 
 
-ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, refund_cohort, refund_channel, funnel_split, metric_map]
+def save(fig, name):
+    fig.tight_layout(pad=1.2)
+    p = os.path.join(OUT, name)
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+def plain(ax, title):
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color(GREY)
+    ax.tick_params(length=0, labelsize=10.5, colors=INK)
+    ax.set_title(title, fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+
+
+def waterfall(rows, title, name, top=None, fmt="{:,}"):
+    """(이름, 값) - 첫 줄은 출발점, 끝에 합계 막대. 출발과 끝만 색을 준다."""
+    bars_, run = [], 0
+    for i, (k, v) in enumerate(rows):
+        bars_.append((k, run if i == 0 or v > 0 else run + v, abs(v), v))
+        run += v
+    bars_.append((name[1], min(0, run), abs(run), run))
+    fig, ax = plt.subplots(figsize=(8.6, 3.8), dpi=150)
+    span = max(abs(b[1]) + b[2] for b in bars_)
+    for i, (k, b, h, v) in enumerate(bars_):
+        c = HOT if i in (0, len(bars_) - 1) else GREY
+        ax.bar(i, h, bottom=b if i else 0, color=c, width=.6, zorder=3)
+        y = (b + h if v >= 0 else b) + span * (.03 if v >= 0 else -.03)
+        ax.text(i, y, fmt.format(round(v, 2)) if v >= 0 else "(" + fmt.format(round(-v, 2)) + ")", ha="center",
+                va="bottom" if v >= 0 else "top", fontsize=10.5,
+                color=HOT if c == HOT else "#64748b", fontweight="bold" if c == HOT else "normal")
+    ax.axhline(0, color="#94a3b8", lw=.9, zorder=4)
+    ax.set_xticks(range(len(bars_)), [b[0] for b in bars_])
+    ax.set_yticks([])
+    if top:
+        ax.set_ylim(*top)
+    plain(ax, title)
+    ax.spines["bottom"].set_visible(False)
+    return save(fig, name[0])
+
+
+def aov_trade():
+    """14편 - 묶음 할인 · 무료배송 문턱을 올린 달, 평소 대비. 객단가는 올랐는데 남는 돈은 줄었다."""
+    fig, ax = plt.subplots(figsize=(8.6, 3.4), dpi=150)
+    bars(ax, ["객단가", "주문 수", "결제액", "남는 돈(공헌이익)"], [10.3, -9.0, 0.4, -11.1],
+         lambda v: "%+.1f%%" % v, "프로모션 달, 평소 대비", "객단가는 10% 올랐는데 남는 돈은 11% 줄었다")
+    return save(fig, "aov-trade.png")
+
+
+def product_margin():
+    """15편 - 상품 셋. 주문 수로 줄 세우면 리필이 1등, 남긴 돈으로 세우면 리필은 거의 0."""
+    names = ["세트", "세럼", "리필"]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(11.4, 3.3), dpi=150)
+    bars(a, names, [800, 1376, 1500], lambda v: "%s건" % format(int(v), ","),
+         "주문 수", "가장 많이 팔린 것은 리필")
+    bars(b, names, [4447, 5884, 169], lambda v: "%s만 원" % format(int(v), ","),
+         "남긴 돈(공헌이익)", "가장 많이 남긴 것은 세럼")
+    b.tick_params(labelleft=False)
+    center_head(a)
+    center_head(b)
+    fig.tight_layout(pad=1.4, w_pad=4)
+    x = (a.get_position().x1 + b.get_position().x0) / 2
+    fig.add_artist(Line2D([x, x], [.04, .98], transform=fig.transFigure, color=GREY, lw=1, ls=(0, (4, 4))))
+    p = os.path.join(OUT, "product-margin.png")
+    fig.savefig(p, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return p
+
+
+def cac_ceiling():
+    """17편 - 광고비를 늘릴 때 마지막 구간의 신규 고객 한 명값(한계 CAC)과 두 상한선."""
+    spend = ["3,000→4,150", "4,150→5,000", "5,000→6,000"]
+    marg = [24468, 33333, 45455]
+    fig, ax = plt.subplots(figsize=(8.6, 3.9), dpi=150)
+    x = range(len(spend))
+    ax.axhline(28560, color="#94a3b8", lw=1.2, ls=(0, (4, 3)), zorder=2)
+    ax.axhline(39984, color="#f59e0b", lw=1.2, ls=(0, (4, 3)), zorder=2)
+    ax.text(-.35, 28560 + 700, "첫 주문이 남기는 돈 28,560원", ha="left", va="bottom", fontsize=10, color="#64748b")
+    ax.text(-.35, 39984 + 700, "첫해 LTV 40,000원", ha="left", va="bottom", fontsize=10, color="#b45309")
+    ax.plot(x, marg, color=HOT, lw=2.4, marker="o", ms=7, zorder=3)
+    for i, v in enumerate(marg):
+        ax.text(i, v - 1800, "{:,}원".format(v), ha="center", va="top", fontsize=10.5, color=HOT, fontweight="bold")
+    ax.set_xticks(list(x), ["광고비 %s만 원" % s for s in spend])
+    ax.set_xlim(-.4, 2.4)
+    ax.set_ylim(15000, 50000)
+    ax.set_yticks([])
+    plain(ax, "광고비를 늘린 구간마다 신규 고객 한 명값")
+    return save(fig, "cac-ceiling.png")
+
+
+def repeat_curve():
+    """18편 - 첫 구매 뒤 몇 달 안에 다시 샀나(누적). 12달에 25%."""
+    m = [1, 2, 3, 6, 9, 12]
+    r = [6, 10, 13, 18, 22, 25]
+    fig, ax = plt.subplots(figsize=(8.6, 3.6), dpi=150)
+    ax.plot(m, r, color=HOT, lw=2.4, marker="o", ms=6, zorder=3)
+    for a, b in zip(m, r):
+        ax.text(a, b + 1.2, "%d%%" % b, ha="center", va="bottom", fontsize=10.5,
+                color=HOT if a == 12 else INK, fontweight="bold" if a == 12 else "normal")
+    ax.set_xticks(m, ["%d개월" % a for a in m])
+    ax.set_ylim(0, 31)
+    ax.set_yticks([])
+    plain(ax, "첫 구매 고객 중 다시 산 사람 (누적)")
+    return save(fig, "repeat-curve.png")
+
+
+def fee_creep():
+    """19편 - 결제 수수료율 3.30% → 4.00%. 요율은 그대로인데 결제 수단이 옮겨 갔다."""
+    return waterfall([("1년 전", 3.30), ("간편결제로\n옮겨 감", .24), ("해외 카드\n늘어남", .10), ("무이자 할부\n부담", .36)],
+                     "결제액 대비 수수료율 (%)", ("fee-creep.png", "지금"), top=(0, 4.6), fmt="{:.2f}")
+
+
+def normal_range():
+    """20편 - 이번 달 지표가 평소 범위(지난 열두 달) 안에 있나. 범위를 0~1 로 펴서 나란히.
+    수수료율은 1년 동안 천천히 올라 범위 끝을 살짝 넘을 뿐이다 - 작년 같은 달(3.3%)과 대야 보인다."""
+    rows = [("전환율", 3.12, 2.88, 3.28, "%.2f%%"), ("객단가", 6.8, 6.4, 7.1, "%.1f만 원"),
+            ("첫 달 환불율", 2.0, 1.7, 2.3, "%.1f%%"), ("공헌이익률", 42, 40, 44, "%d%%"),
+            ("CAC", 1.77, 1.6, 1.95, "%.2f만 원"), ("결제 수수료율", 4.0, 3.55, 3.9, "%.1f%%")]
+    fig, ax = plt.subplots(figsize=(8.6, 3.9), dpi=150)
+    for i, (k, v, lo, hi, f) in enumerate(rows):
+        pos = min((v - lo) / (hi - lo), 1.9)
+        out = not 0 <= pos <= 1
+        ax.add_patch(plt.Rectangle((0, i - .22), 1, .44, color="#e2e8f0", zorder=1, lw=0))
+        ax.plot([pos], [i], marker="o", ms=9, color=HOT if out else "#64748b", zorder=3)
+        ax.text(pos + .07, i, f % v, va="center", fontsize=10.5, color=HOT if out else INK,
+                fontweight="bold" if out else "normal")
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows])
+    ax.invert_yaxis()
+    ax.set_xlim(-.3, 2.5)
+    ax.set_xticks([0, 1], ["평소 아래 끝", "평소 위 끝"])
+    plain(ax, "이번 달, 평소 범위 안에 있나")
+    return save(fig, "normal-range.png")
+
+
+def ebitda_capex():
+    """21편 - 영업이익이 같은 두 회사(1년, 만 원). B 는 물류센터를 지어 물류비가 상각으로 바뀌었다."""
+    keys = ["영업이익", "EBITDA", "EBITDA - 설비 투자"]
+    a = [16200, 18000, 16200]
+    b = [16200, 39600, -70200]
+    fig, ax = plt.subplots(figsize=(8.6, 3.9), dpi=150)
+    y = range(len(keys))
+    h = .34
+    ax.barh([i - h / 2 for i in y], a, height=h, color=GREY, zorder=3, label="A 위탁 물류")
+    ax.barh([i + h / 2 for i in y], b, height=h, color=HOT, zorder=3, label="B 자체 물류센터")
+    for i in y:
+        for v, off, c in ((a[i], -h / 2, "#64748b"), (b[i], h / 2, HOT)):
+            ax.text(v + (2500 if v >= 0 else -2500), i + off, "{:,}".format(v) if v >= 0 else "({:,})".format(-v),
+                    va="center", ha="left" if v >= 0 else "right", fontsize=10.5, color=c)
+    ax.axvline(0, color="#94a3b8", lw=.9, zorder=4)
+    ax.set_yticks(list(y), keys)
+    ax.invert_yaxis()
+    ax.set_xlim(-100000, 60000)
+    ax.set_xticks([])
+    for s in ("top", "right", "left", "bottom"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(axis="y", length=0, labelsize=11, colors=INK)
+    ax.legend(loc="lower right", bbox_to_anchor=(1, 1.0), ncol=2, frameon=False, fontsize=10)
+    ax.set_title("1년 숫자 (만 원)", fontsize=13, color=INK, pad=12, loc="left", fontweight="bold")
+    return save(fig, "ebitda-capex.png")
+
+
+def ebitda_cash():
+    """22편 - 성수기 앞 한 달. EBITDA 1,500 이 영업현금흐름 (1,100) 이 되기까지."""
+    return waterfall([("EBITDA", 1500), ("재고", -2400), ("오픈마켓\n정산 대기", -900), ("외상 매입", 600),
+                      ("선수금", 300), ("법인세", -200)],
+                     "EBITDA 에서 영업현금흐름까지 (만 원)", ("ebitda-cash.png", "영업\n현금흐름"), top=(-2600, 1900))
+
+
+ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, refund_cohort, refund_channel, funnel_split, metric_map,
+       aov_trade, product_margin, cac_ceiling, repeat_curve, fee_creep, normal_range, ebitda_capex, ebitda_cash]
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
