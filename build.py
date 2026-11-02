@@ -36,6 +36,7 @@ SLUG = {
     "13 마케팅 지표는 이익 하나로 이어진다": "marketing-metrics-map",
     "14 객단가가 오른 달에 남는 돈은 줄었다": "higher-aov-less-profit",
     "15 많이 팔린 상품이 많이 남긴 상품은 아니다": "best-seller-not-best-earner",
+    "16 환불을 빼고 보면 광고 순위가 바뀐다": "refunds-change-ad-ranking",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
