@@ -100,6 +100,17 @@
   .checks4 ul{list-style:none}
   .checks4 li{font-size:16px;line-height:1.5;color:rgba(255,255,255,.88);padding:7px 0;word-break:keep-all}
 
+  /* 이어짐 - 고리를 화살표로. 제품 페이지 .chains 와 같은 모양 */
+  .chains{border-top:1px solid var(--line)}
+  .chains > div{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line)}
+  .chains .k{font-size:16px;font-weight:600;color:var(--gold);padding-top:3px}
+  .chains ol{list-style:none;display:flex;flex-wrap:wrap;gap:10px 0;align-items:center}
+  .chains li{font-size:19px;font-weight:600;color:var(--navy);letter-spacing:-.015em;white-space:nowrap}
+  .chains li + li::before{content:"→";color:#9aa6b2;font-weight:400;margin:0 12px}
+  .chains + .more{margin-top:22px;font-size:16px}
+  .chains + .more a{color:var(--navy);font-weight:600;text-decoration:none}
+  .chains + .more a:hover{color:var(--gold)}
+
   /* 3. 맞는 회사 - 두 줄 네 문장 */
   .fit2{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
   .fit2 div{padding:22px 0;border-top:1px solid var(--line);font-size:20px;font-weight:600;color:var(--navy);letter-spacing:-.015em}
@@ -148,6 +159,8 @@
     .check::before{background:rgba(25,50,72,.82)}
     .check h2{font-size:30px}
     .checks4{grid-template-columns:1fr 1fr;gap:32px 24px;margin-top:40px}
+    .chains > div{grid-template-columns:1fr;gap:8px}
+    .chains li{font-size:17px;white-space:normal}
     .work2 a{grid-template-columns:1fr;gap:6px;padding:24px 0}
     .work2 b{font-size:21px}
     .posts2 a{grid-template-columns:1fr;gap:4px}
@@ -215,6 +228,17 @@
 </section>
 
 <div class="wrap">
+  <section class="sec">
+    <h2>모든 것이 이어집니다</h2>
+    <p class="lead">한 번 넣은 숫자를 다시 옮겨 적지 않습니다. 앞 단계에서 정해진 숫자를 다음 단계가 그대로 받아 씁니다.</p>
+    <div class="chains">
+      <div><span class="k">급여</span><ol><li>연봉 계약</li><li>급여대장</li><li>소득세, 4대보험</li><li>분개</li><li>은행 이체 파일</li><li>재무제표</li></ol></div>
+      <div><span class="k">지급</span><ol><li>계약서</li><li>집행 신청과 승인</li><li>자금일보</li><li>은행 이체 파일</li><li>통장 출금</li><li>증빙 대사</li></ol></div>
+      <div><span class="k">세금계산서</span><ol><li>홈택스</li><li>자금일보 줄 돈</li><li>분개 추천</li><li>부가세 신고 대사</li></ol></div>
+    </div>
+    <p class="more"><a href="/product/">무엇이 어떻게 이어지는지 →</a></p>
+  </section>
+
   <section class="sec">
     <h2>이런 회사에 맞습니다</h2>
     <div class="fit2">
