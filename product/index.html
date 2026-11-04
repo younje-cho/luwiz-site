@@ -38,6 +38,7 @@
   .chains p{grid-column:2;font-size:15.5px;color:var(--muted);margin-top:-8px}
 
   /* 기능 목록 - 이름 | 한 줄 */
+  section[id]{scroll-margin-top:12px}
   .feat{border-top:1px solid var(--line)}
   .feat > *{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
   .feat b{font-size:16.5px;font-weight:600;color:var(--navy)}
@@ -59,7 +60,7 @@
 
   <div class="top">
     <a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a>
-    <nav><span class="menu"><a href="/product/" aria-current="page">제품</a><span class="sub"><a href="/product/consolidation.html">연결재무제표</a><a href="/product/cash-flow-statement.html">현금흐름표</a><a href="/product/management-accounting.html">관리회계</a><a href="/product/daily-cash-report.html">자금일보</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav>
+    <nav><span class="menu"><a href="/product/" aria-current="page">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav>
   </div>
 
 </div>
@@ -71,7 +72,7 @@
 
 <div class="wrap">
 
-  <section>
+  <section id="flow">
     <h2>한 번 넣은 숫자가 다음 단계로 이어집니다</h2>
     <p class="lead">화면마다 따로 적지 않습니다. 앞 단계에서 정해진 숫자를 다음 단계가 그대로 받아 씁니다.</p>
     <div class="chains">
@@ -107,7 +108,7 @@
 
   <hr>
 
-  <section>
+  <section id="close">
     <h2>결산</h2>
     <div class="feat">
       <a href="/product/month-end-close.html"><b>월 마감</b><span>마감 절차를 단계마다 담당과 승인으로 나누고, 분개는 묶어서 승인합니다.</span></a>
@@ -122,7 +123,7 @@
 
   <hr>
 
-  <section>
+  <section id="consol">
     <h2>연결</h2>
     <div class="feat">
       <a href="/product/consolidation.html"><b>연결재무제표</b><span>자회사 재무제표 파일로도, 각 법인 분개장으로도 연결합니다.</span></a>
@@ -136,7 +137,7 @@
 
   <hr>
 
-  <section>
+  <section id="tax">
     <h2>세금</h2>
     <div class="feat">
       <div><b>홈택스 자료</b><span>세금계산서, 사업용 카드, 현금영수증 내역을 받아 매출, 매입 분개를 추천합니다.</span></div>
@@ -147,7 +148,7 @@
 
   <hr>
 
-  <section>
+  <section id="fpa">
     <h2>관리회계</h2>
     <div class="feat">
       <a href="/product/management-accounting.html"><b>사업부별 손익</b><span>분개 줄에 사업부가 붙고, 공통비는 매출액, 면적, 인원수 같은 기준으로 나눕니다.</span></a>
@@ -163,7 +164,7 @@
 
   <hr>
 
-  <section>
+  <section id="cash">
     <h2>자금</h2>
     <div class="feat">
       <a href="/product/daily-cash-report.html"><b>자금일보</b><span>통장을 매일 읽어 일별, 월별 자금표를 만들고 다음 달 잔액을 예측합니다. 달러 통장도 한 표에서 봅니다.</span></a>
@@ -174,7 +175,7 @@
 
   <hr>
 
-  <section>
+  <section id="contract">
     <h2>계약</h2>
     <div class="feat">
       <div><b>계약 사전 확인</b><span>남은 예산과 예상 자금 잔액을 보고 확인하면 계약번호가 납니다.</span></div>
@@ -184,7 +185,7 @@
 
   <hr>
 
-  <section>
+  <section id="hr">
     <h2>인사</h2>
     <div class="feat">
       <div><b>직원, 급여 정보</b><span>입사일, 퇴사일, 연봉과 월급 이력을 적용일별로 둡니다.</span></div>
@@ -195,7 +196,7 @@
 
   <hr>
 
-  <section>
+  <section id="ir">
     <h2>IR</h2>
     <div class="feat">
       <div><b>주주명부</b><span>설립, 증자, 양수도, 소각을 쌓아 어느 날짜 기준으로든 명부를 뽑습니다.</span></div>
@@ -219,7 +220,7 @@
 
   <hr>
 
-  <section>
+  <section id="ai">
     <h2>AI</h2>
     <div class="feat">
       <div><b>쓰는 AI에 붙이기 (MCP)</b><span>Claude, ChatGPT 같은 AI에 루위즈를 붙이면 장부 숫자를 묻고, 받은 자료를 올리고, 분개 초안을 씁니다. 숫자 계산은 루위즈가 하고, 초안은 사람이 승인해야 반영됩니다.</span></div>
