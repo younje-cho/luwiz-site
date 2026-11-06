@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S2VE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // 대표님 기기는 안 센다(2026-10-08) - 주소 끝 ?me=1 로 한 번 열면 그 브라우저는 꺼지고, ?me=0 이면 다시 켜진다
+  try { var q = location.search; if (q.indexOf('me=1') >= 0) localStorage.setItem('luwiz_me', '1'); if (q.indexOf('me=0') >= 0) localStorage.removeItem('luwiz_me'); if (localStorage.getItem('luwiz_me')) window['ga-disable-G-KMZVP6S2VE'] = true; } catch (e) {}
+  gtag('js', new Date());
+  gtag('config', 'G-KMZVP6S2VE');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>부가세 대사 — 주식회사 루위즈</title>
+<meta name="description" content="장부, 홈택스 자료, 부가세 신고서를 나란히 놓고 매출세액과 매입세액이 어디서 다른지 보여 줍니다. 분기 말에 몰아서 맞추지 않고 매달 봅니다.">
+<meta property="og:title" content="부가세 대사 — 주식회사 루위즈">
+<meta property="og:description" content="장부, 홈택스 자료, 부가세 신고서를 나란히 놓고 매출세액과 매입세액이 어디서 다른지 보여 줍니다. 분기 말에 몰아서 맞추지 않고 매달 봅니다.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://luwiz.co.kr/product/vat-reconciliation.html">
+<link rel="icon" href="/logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+    <a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a>
+    <nav><span class="menu"><a href="/product/" aria-current="page">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav>
+  </div>
+
+</div>
+
+<header class="band"><div class="wrap">
+  <p class="kicker">제품, 부가세 대사</p>
+  <h1>부가세 신고 전에 장부와 맞춰 봅니다</h1>
+  <p>
+    장부, 홈택스 자료, 부가세 신고서를 나란히 놓습니다.<br>
+    <b>매출세액과 매입세액이 어디서 다른지 매달 보입니다.</b>
+  </p>
+</div></header>
+
+<div class="wrap">
+
+  <section>
+    <h2>이런 일 있으시죠</h2>
+    <div class="cards">
+      <div>
+        <b>신고한 세액과 장부가 안 맞음</b>
+        <p>부가세예수금 잔액이 신고서와 다른데, 어느 전표에서 벌어졌는지 찾으려면 한 줄씩 대 봐야 합니다.</p>
+      </div>
+      <div>
+        <b>계산서와 장부가 따로 놂</b>
+        <p>계산서는 받았는데 장부에 없는 매입, 장부에는 있는데 계산서가 없는 비용이 신고 직전에야 보입니다.</p>
+      </div>
+      <div>
+        <b>카드 공제가 헷갈림</b>
+        <p>홈택스 사업용 카드 내역은 세금, 공과금까지 공제로 찍힙니다. 어디까지 공제인지 따로 걸러야 합니다.</p>
+      </div>
+      <div>
+        <b>분기 말에 몰아서 맞춤</b>
+        <p>석 달 치를 신고 기한 앞에 한꺼번에 봅니다. 틀린 곳을 찾아도 고칠 시간이 없습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>어떻게 하나</h2>
+    <ol class="steps">
+      <li><b>홈택스 자료를 받아 옵니다</b> <span>매출, 매입 세금계산서와 사업용 카드, 현금영수증을 크롬 확장 단추 하나로 받아 옵니다.</span></li>
+      <li><b>매출은 거래처로 짝짓습니다</b> <span>장부 매출과 매출 세금계산서 공급가액을 거래처마다 나란히 놓습니다. 이름이 조금 달라도 같은 거래처로 묶습니다.</span></li>
+      <li><b>매입은 증빙으로 나눕니다</b> <span>장부 비용을 카드, 세금계산서, 차이로 나눕니다. 차이에 남은 것이 받아야 할 계산서 후보입니다.</span></li>
+      <li><b>공제 세액을 걸러 냅니다</b> <span>카드, 현금영수증 중 공제분만 세고, 세금과 공과금처럼 부가세가 없는 줄은 뺍니다.</span></li>
+      <li><b>매달 분기 누계로 봅니다</b> <span>1월을 마감하면 1기 예정 분기의 1월까지, 2월이면 2월까지 쌓아 봅니다. 분기 말을 기다리지 않습니다.</span></li>
+      <li><b>신고서와 한 줄씩 댑니다</b> <span>부가세 신고서를 올리면 과세표준, 매출세액, 매입세액을 신고서 줄과 장부로 나란히 봅니다.</span></li>
+    </ol>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>차이가 곧 할 일입니다</h2>
+    <p>계산서 없이 신고하는 영세율 수출 매출처럼 원래 다른 것은 차이로 드러납니다. 계산서를 원래 받지 않는 거래처는 해당 없음으로 한 번 빼 두면 다음 달부터 안 섞입니다. 남은 차이는 월 마감에서 물어볼 것이 됩니다.</p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>같이 나오는 것</h2>
+    <div class="two">
+      <div>매출 대사</div>
+      <div>매입 증빙 대사</div>
+      <div>카드 공제 대사</div>
+      <div>부가세 신고서 대사</div>
+      <a href="/product/evidence-reconciliation.html">증빙 대사</a>
+      <a href="/product/month-end-close.html">월 마감</a>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>자주 묻는 질문</h2>
+    <div class="faq">
+      <details>
+        <summary>부가세 신고서가 없어도 되나요?</summary>
+        <p>됩니다. 홈택스 자료와 장부만으로 매달 대 봅니다. 신고한 뒤 신고서를 올리면 신고서 줄이 한 줄 더 붙습니다.</p>
+      </details>
+      <details>
+        <summary>신고는 어떻게 하나요?</summary>
+        <p>맞춰 둔 장부와 홈택스 자료로 지금처럼 신고하시면 됩니다. 함께할 세무사가 필요하면 루위즈 장부로 일하는 파트너 세무사를 소개해 드립니다.</p>
+      </details>
+      <details>
+        <summary>법인이 여럿이면요?</summary>
+        <p>법인마다 따로 대 봅니다. 한 화면에서 법인을 바꿔 가며 봅니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="cta">
+    <a class="btn-main" href="mailto:contact@luwiz.co.kr">문의하기</a>
+    <a class="mail" href="mailto:contact@luwiz.co.kr">contact@luwiz.co.kr</a>
+  </section>
+
+  <hr>
+
+  <footer>
+    <strong>주식회사 루위즈</strong><br>
+    사업자등록번호 333-87-04299<br>
+    <a href="/notice/">공고</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
