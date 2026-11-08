@@ -3,7 +3,9 @@
 
 /* 2026-10-04 다시 그림 - 폭 720 → 1120(글은 760), 글자 한 단계 키움, 크림 상자(--card) 는 흰 바탕 + 선으로.
    금색은 포인트 한 가지로만 쓴다(번호 · 밑줄 · hover). 모서리는 단추 6px 하나. */
-:root{--navy:#193248;--gold:#AC8540;--ink:#1c2b3a;--muted:#5f6f7e;--line:#e3e6ea;--bg:#ffffff;--card:#ffffff;--wash:#f4f5f7}
+/* 2026-11-08 색을 바꿈(대표님: 「그랜터처럼 저런 색감으로」) - 남색 띠와 금색을 걷고, 옅은 하늘색 바탕 + 거의 검정 글자 + 파랑 포인트.
+   변수 이름은 그대로 둔다(--gold 가 이제 파랑) - 33개 페이지가 이 이름을 쓴다. */
+:root{--navy:#0f1d2e;--gold:#2563eb;--ink:#16212e;--muted:#5b6876;--line:#e6eaf0;--bg:#ffffff;--card:#ffffff;--wash:#f3f7fd;--sky:#e6f0ff}
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
@@ -18,7 +20,7 @@ body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun 
 .top nav{margin-left:auto;display:flex;align-items:center;gap:28px}
 .top nav a{font-size:16px;color:var(--ink);text-decoration:none;font-weight:500}
 .top nav a:hover,.top nav a[aria-current]{color:var(--gold)}
-.top nav a.btn{background:var(--navy);color:#fff;font-size:15px;line-height:1;padding:11px 16px;border-radius:6px;font-weight:600}
+.top nav a.btn{background:var(--navy);color:#fff;font-size:15px;line-height:1;padding:11px 16px;border-radius:10px;font-weight:600}
 .top nav a.btn:hover{background:#0f2234;color:#fff}
 
 /* 「제품」에 올리면 펴진다. 아래 여백은 마우스가 지날 다리다 - 없으면 내려가다 닫힌다 */
@@ -56,15 +58,13 @@ header{padding:56px 0 44px}
 header h1{font-size:40px;line-height:1.25;font-weight:800;color:var(--navy);letter-spacing:-.03em}
 header p{margin-top:18px;font-size:19px;color:var(--muted);line-height:1.7}
 header p b{color:var(--ink);font-weight:600}
-/* 제품 페이지 머리 - 첫 화면의 남색 띠(.check)와 같은 사진 · 같은 덮개. 사진은 img/check-bg.jpg (Unsplash MNsXlmQ3r1g) */
-header.band{position:relative;isolation:isolate;color:#fff;padding:72px 0 68px;
-            background:var(--navy) url(/img/check-bg.jpg) center right / cover no-repeat}
-header.band::before{content:"";position:absolute;inset:0;z-index:-1;
-            background:linear-gradient(90deg, rgba(25,50,72,.96) 0%, rgba(25,50,72,.88) 42%, rgba(25,50,72,.35) 100%)}
-header.band .kicker{color:#d6b474}
-header.band h1{color:#fff}
-header.band p{color:rgba(255,255,255,.78)}
-header.band p b{color:#fff}
+/* 제품 · 솔루션 페이지 머리 - 위에서 번지는 옅은 하늘색. 첫 화면 .sky 와 같은 바탕(2026-11-08, 전에는 남색 사진 띠) */
+header.band{padding:72px 0 68px;
+            background:radial-gradient(900px 420px at 30% -20%, #cfe2ff 0%, rgba(207,226,255,0) 70%), linear-gradient(180deg, #eef5ff 0%, #fff 100%)}
+header.band h1{color:var(--navy)}
+/* 바탕이 흰색이라 한 줄 폭을 줄여 읽히게 */
+header.band h1{max-width:30ch;word-break:keep-all}
+header.band p{max-width:46ch;word-break:keep-all}
 
 /* 카드 묶음 - 상자 대신 윗선 */
 .cards{display:grid;gap:0;border-top:1px solid var(--line)}
@@ -73,6 +73,7 @@ header.band p b{color:#fff}
 /* 글 안의 굵은 글씨는 줄을 안 바꾼다 - 위 규칙이 제목용이라 본문까지 블록이 됐다 */
 .cards p b{display:inline;font-size:inherit;color:var(--ink);margin:0}
 .cards p{font-size:16.5px;color:var(--muted)}
+.cards + p{margin-top:20px}
 a.card{text-decoration:none;display:block}
 a.card:hover b{color:var(--gold)}
 
@@ -135,7 +136,7 @@ th{background:var(--wash);font-weight:600;color:var(--navy)}
 .cta{padding:72px 0 80px}
 .cta h2{font-size:32px;margin-bottom:26px}
 .btn-main{display:inline-block;text-decoration:none;font-weight:600;font-size:17px;line-height:1;
-          padding:18px 26px;border-radius:6px;background:var(--navy);color:#fff}
+          padding:18px 26px;border-radius:10px;background:var(--navy);color:#fff}
 .btn-main:hover{background:#0f2234}
 .cta .mail{display:inline-block;margin-left:18px;font-size:17px;color:var(--muted);text-decoration:none}
 .cta .mail:hover{color:var(--navy)}
@@ -153,8 +154,7 @@ footer a:hover{color:var(--navy)}
   .top span{display:none}
   .top nav{gap:18px}
   header{padding:40px 0 36px}
-  header.band{padding:48px 0 44px;background-position:center}
-  header.band::before{background:rgba(25,50,72,.82)}
+  header.band{padding:48px 0 44px}
   header h1{font-size:30px}
   header p{font-size:17px}
   article h1{font-size:28px}

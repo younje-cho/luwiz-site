@@ -57,7 +57,7 @@ GA = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-KMZVP6S
 CSS = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="/style.css">"""
 
-TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav></div>"""
+TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><span class="menu"><a href="/#doors">솔루션</a><span class="sub"><a href="/solution/self-bookkeeping.html">자체 기장</a><a href="/solution/consolidation-build.html">연결재무제표 구축</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav></div>"""
 FOOTER = """<hr>
   <footer><strong>주식회사 루위즈</strong><br>사업자등록번호 333-87-04299<br><a href="/notice/">공고</a></footer>"""
 
