@@ -38,6 +38,7 @@ SLUG = {
     "15 많이 팔린 상품이 많이 남긴 상품은 아니다": "best-seller-not-best-earner",
     "16 환불을 빼고 보면 광고 순위가 바뀐다": "refunds-change-ad-ranking",
     "17 고객 한 명을 데려오는 데 얼마까지 써도 되나": "how-much-to-spend-per-customer",
+    "18 광고비 없이 돌아오는 고객은 매출의 몇 할인가": "repeat-customers-share",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례

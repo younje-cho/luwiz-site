@@ -426,20 +426,53 @@ def cac_ceiling():
     return save(fig, "cac-ceiling.png")
 
 
-def repeat_curve():
-    """18편 - 첫 구매 뒤 몇 달 안에 다시 샀나(누적). 12달에 25%."""
-    m = [1, 2, 3, 6, 9, 12]
-    r = [6, 10, 13, 18, 22, 25]
-    fig, ax = plt.subplots(figsize=(8.6, 3.6), dpi=150)
-    ax.plot(m, r, color=HOT, lw=2.4, marker="o", ms=6, zorder=3)
-    for a, b in zip(m, r):
-        ax.text(a, b + 1.2, "%d%%" % b, ha="center", va="bottom", fontsize=10.5,
-                color=HOT if a == 12 else INK, fontweight="bold" if a == 12 else "normal")
-    ax.set_xticks(m, ["%d개월" % a for a in m])
-    ax.set_ylim(0, 31)
-    ax.set_yticks([])
-    plain(ax, "첫 구매 고객 중 다시 산 사람 (누적)")
-    return save(fig, "repeat-curve.png")
+#: 18편 예시 - 첫 구매 뒤 N개월째에 **처음으로 다시 산** 고객 비율(%, 그 달 몫). 첫 석 달 6 · 4 · 3, 그 뒤 1%대. 열두 달 합 25%
+REPEAT_STEP = [6, 4, 3, 1.8, 1.6, 1.6, 1.4, 1.3, 1.3, 1.1, 1.0, 0.9]
+#: 처음 산 달(2025-10 ~ 2026-09)마다 조금씩 다르게 - 10월 말 기준이라 최근 묶음은 칸이 덜 찼다
+REPEAT_M = ["25.10", "25.11", "25.12", "26.01", "26.02", "26.03", "26.04", "26.05", "26.06", "26.07", "26.08", "26.09"]
+REPEAT_MUL = [1.0, .96, 1.04, .98, 1.0, .94, 1.03, 1.0, .97, 1.02, .98, 1.0]
+
+
+def repeat_cells():
+    """[처음 산 달][N개월째] 그 달 처음 다시 산 비율(%) - 10월 말까지 안 온 칸은 None."""
+    n = len(REPEAT_M)
+    return [[round(b * REPEAT_MUL[i], 1) if a <= n - i else None for a, b in enumerate(REPEAT_STEP, 1)] for i in range(n)]
+
+
+def repeat_cohort():
+    """18편 - 재구매 코호트. 가로줄 처음 산 달 · 칸 N개월째 그 달 처음 다시 산 비율 · 끝에 지금까지 합계. 12편 환불 코호트와 같은 모양."""
+    cells = repeat_cells()
+    n, k = len(REPEAT_M), len(REPEAT_STEP)
+    fig, ax = plt.subplots(figsize=(11.6, 6.0), dpi=150)
+    ax.set_xlim(-.5, k + 1.0)
+    ax.set_ylim(n - .5, -1.1)
+    pct = lambda v: ("%d%%" % v) if v == int(v) else ("%.1f%%" % v)   # noqa: E731
+    for i in range(n):
+        for j in range(k):
+            v = cells[i][j]
+            if v is None:
+                continue
+            a = min(v / 6.5, 1)
+            ax.add_patch(plt.Rectangle((j - .46, i - .42), .92, .84, color=(1 - .85 * a, 1 - .6 * a, 1 - .15 * a), zorder=1))
+            ax.text(j, i, pct(v), ha="center", va="center", fontsize=9.5, color="white" if a > .62 else INK, zorder=3)
+        tot = round(sum(v for v in cells[i] if v), 1)
+        full = cells[i][-1] is not None
+        ax.add_patch(plt.Rectangle((k + .05, i - .42), .9, .84, color="#f1f5f9", zorder=1))
+        ax.text(k + .5, i, pct(tot), ha="center", va="center", fontsize=10 if full else 9.5, color=HOT if full else INK,
+                fontweight="bold", zorder=3)
+    for j in range(k):
+        ax.text(j, -.8, "%d" % (j + 1), ha="center", va="center", fontsize=10, color="#64748b")
+    ax.text(k + .5, -.8, "지금까지", ha="center", va="center", fontsize=10, color="#64748b")
+    ax.plot([2.5, 2.5], [n - .5, -.5], color=INK, lw=1.2, ls=(0, (3, 3)), zorder=4)
+    ax.set_yticks(range(n), REPEAT_M)
+    ax.set_xticks([])
+    ax.text(-.5, -1.5, "가로줄: 처음 산 달   칸: 첫 구매 뒤 N개월째에 처음 다시 산 고객 비율   점선: 석 달   10월 말 기준",
+            ha="left", va="center", fontsize=9.5, color="#64748b")
+    for s in ("top", "right", "left", "bottom"):
+        ax.spines[s].set_visible(False)
+    ax.tick_params(length=0, labelsize=10.5, colors=INK)
+    ax.set_title("재구매 코호트", fontsize=13, color=INK, pad=34, loc="left", fontweight="bold")
+    return save(fig, "repeat-cohort.png")
 
 
 def fee_creep():
@@ -505,7 +538,7 @@ def ebitda_cash():
 
 
 ALL = [funnel_basic, funnel_gap, conv_trend, refund_lag, refund_cohort, refund_channel, funnel_split, metric_map,
-       aov_trade, product_margin, cac_ceiling, repeat_curve, fee_creep, normal_range, ebitda_capex, ebitda_cash]
+       aov_trade, product_margin, cac_ceiling, repeat_cohort, fee_creep, normal_range, ebitda_capex, ebitda_cash]
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
