@@ -192,3 +192,6 @@ dialog.ask::backdrop{background:rgba(15,29,46,.45)}
 .ask .msg.bad{color:#b91c1c}
 .ask .btn-main{width:100%;border:0;cursor:pointer;text-align:center}
 .ask .btn-main:disabled{opacity:.6;cursor:default}
+.ask .kakao{display:block;text-align:center;text-decoration:none;font-weight:600;font-size:16px;line-height:1;padding:15px 0;border-radius:10px;background:#fee500;color:#191919}
+.ask .kakao:hover{background:#f5dc00}
+.ask .or{font-size:13.5px;color:var(--muted);text-align:center;margin:14px 0 16px}

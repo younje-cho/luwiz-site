@@ -12,6 +12,9 @@
       '<form method="dialog" novalidate>' +
       '<button type="button" class="x" aria-label="닫기">×</button>' +
       '<h2>문의하기</h2>' +
+      // 카카오톡 채널(2026-11-13 대표님이 만듦 - 루위즈, 검색용 아이디 루위즈)
+      '<a class="kakao" href="https://pf.kakao.com/_TxjXNX/chat" target="_blank" rel="noopener">카카오톡으로 묻기</a>' +
+      '<p class="or">또는 남겨 주시면 연락드리겠습니다</p>' +
       '<label>이름<input name="name" required maxlength="120" autocomplete="name"></label>' +
       '<label>회사<input name="company" maxlength="200" autocomplete="organization"></label>' +
       '<label>답을 받을 메일이나 전화번호<input name="contact" required maxlength="300" autocomplete="email"></label>' +
