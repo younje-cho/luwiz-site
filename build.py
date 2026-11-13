@@ -227,10 +227,33 @@ def main():
 </html>
 """
     io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8", newline="\n").write(idx)
+    home(posts)
     print(f"ok  글 {len(posts)}장 + 목록")
     for t, s, d, c in posts:
         print(f"    /blog/{s}.html   {c} · {t}")
     sitemap()
+
+def home(posts, n=4):
+    """**첫 화면 글 목록** - 갈래마다 최신 n편(2026-11-13 대표님: 「카테고리 2개로 나눠서」).
+    전에는 손으로 적어 10-02 의 4편에 멈춰 있었다. 표시 사이만 갈아 끼운다."""
+    cols = ""
+    for k in CATS:
+        # 같은 날이면 번호가 뒤인 글(SLUG 아래쪽)이 먼저 - 발행일 없는 글은 쓴 날로 떨어져 날이 겹친다
+        got = [p for _, p in sorted(((i, p) for i, p in enumerate(posts) if p[3] == k),
+                                    key=lambda x: (x[1][2], x[0]), reverse=True)][:n]
+        if not got:
+            continue
+        rows = "\n".join(f'          <li><a href="/blog/{s}.html"><span>{html.escape(t)}</span><time>{d}</time></a></li>'
+                         for t, s, d, c in got)
+        cols += f'      <div>\n        <h3>{html.escape(k)}</h3>\n        <ul class="posts2">\n{rows}\n        </ul>\n      </div>\n'
+    p = os.path.join(HERE, "index.html")
+    t = io.open(p, encoding="utf-8").read()
+    t, hit = re.subn(r"(<!-- 글 목록:[^\n]*-->\n).*?(<!-- /글 목록 -->)",
+                     lambda m: m.group(1) + '    <div class="posts3">\n' + cols + "    </div>\n    " + m.group(2),
+                     t, flags=re.S)
+    assert hit == 1, "index.html 에 글 목록 표시가 없어요"
+    io.open(p, "w", encoding="utf-8", newline="\n").write(t)
+
 
 def sitemap():
     """저장소의 .html 을 훑어 sitemap.xml · robots.txt 를 쓴다.
