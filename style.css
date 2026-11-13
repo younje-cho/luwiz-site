@@ -171,3 +171,24 @@ footer a:hover{color:var(--navy)}
 figure{margin:24px 0}
 figure img{width:100%;height:auto;display:block}
 figcaption{font-size:13.5px;color:var(--muted);margin-top:8px;text-align:center}
+
+/* 문의하기 칸(inquiry.js) - 버튼을 누르면 뜬다 */
+dialog.ask{margin:auto;border:0;border-radius:18px;padding:0;width:min(480px,calc(100% - 32px));box-shadow:0 24px 64px rgba(15,29,46,.22);color:var(--ink)}
+dialog.ask::backdrop{background:rgba(15,29,46,.45)}
+.ask form{padding:32px 32px 28px;position:relative}
+.ask h2{font-size:22px;margin-bottom:18px}
+.ask .x{position:absolute;top:14px;right:16px;border:0;background:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer}
+.ask label{display:block;font-size:14px;font-weight:600;color:var(--navy);margin-bottom:14px}
+.ask input,.ask textarea{display:block;width:100%;margin-top:6px;font:inherit;font-size:15px;font-weight:400;color:var(--ink);
+     border:1px solid #cfd6df;border-radius:10px;padding:10px 12px;background:#fff}
+.ask input:focus,.ask textarea:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:transparent}
+.ask textarea{resize:vertical;min-height:110px}
+.ask .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.ask .note{font-size:13px;color:var(--muted);margin:2px 0 10px}
+.ask .note a{color:var(--muted)}
+.ask .msg{font-size:14px;min-height:0;margin-bottom:10px}
+.ask .msg:empty{display:none}
+.ask .msg.ok{color:#15803d}
+.ask .msg.bad{color:#b91c1c}
+.ask .btn-main{width:100%;border:0;cursor:pointer;text-align:center}
+.ask .btn-main:disabled{opacity:.6;cursor:default}
