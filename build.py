@@ -40,6 +40,7 @@ SLUG = {
     "17 고객 한 명을 데려오는 데 얼마까지 써도 되나": "how-much-to-spend-per-customer",
     "18 광고비 없이 돌아오는 고객은 매출의 몇 할인가": "repeat-customers-share",
     "19 결제 수수료는 왜 조용히 오르나": "why-payment-fees-creep-up",
+    "20 숫자를 보고 무엇을 바꿀 수 있나": "what-to-change-from-numbers",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
@@ -66,7 +67,10 @@ FOOTER = """<hr>
 
 def inline(t):
     t = html.escape(t)
-    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
+    t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
+    # [글 제목](https://luwiz.co.kr/blog/…) - 앞 글 링크는 사이트 안 주소로(2026-11-14 글 20)
+    return re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)",
+                  lambda m: f'<a href="{m.group(2).replace(SITE, "")}">{m.group(1)}</a>', t)
 
 
 def body_of(md):

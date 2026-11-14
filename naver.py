@@ -41,7 +41,30 @@ def inline(s):
     s = html.escape(s, quote=True)
     s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
     s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
-    return s
+    # [글 제목](https://luwiz.co.kr/blog/…) → 같은 제목의 네이버 글로. 외부 링크는 노출을 깎는다(2026-11-14 글 20)
+    return re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)",
+                  lambda m: '<a href="%s">%s</a>' % (naver_url(m.group(1), m.group(2)), m.group(1)), s)
+
+
+_POSTS = None
+
+
+def naver_url(title, fallback):
+    """네이버 블로그 luwiz 에서 제목이 같은 글 주소. 못 찾으면 원래 주소."""
+    global _POSTS
+    if _POSTS is None:
+        import urllib.parse
+        import urllib.request
+        _POSTS = {}
+        try:
+            req = urllib.request.Request("https://blog.naver.com/PostTitleListAsync.naver?blogId=luwiz"
+                                         "&currentPage=1&countPerPage=30", headers={"User-Agent": "Mozilla/5.0"})
+            t = urllib.request.urlopen(req, timeout=10).read().decode("utf-8")
+            for no, ti in re.findall(r'"logNo":"(\d+)","title":"([^"]*)"', t):
+                _POSTS[urllib.parse.unquote_plus(ti)] = "https://blog.naver.com/luwiz/" + no
+        except Exception as e:
+            print("네이버 글 목록 못 받음 - 홈페이지 주소로 둔다:", e)
+    return _POSTS.get(html.unescape(title), fallback)
 
 
 NUM = re.compile(r"^[(+\-]?[\d,.]+\s*[억만원%]*\)?$")
