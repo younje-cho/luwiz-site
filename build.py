@@ -41,6 +41,7 @@ SLUG = {
     "18 광고비 없이 돌아오는 고객은 매출의 몇 할인가": "repeat-customers-share",
     "19 결제 수수료는 왜 조용히 오르나": "why-payment-fees-creep-up",
     "20 숫자를 보고 무엇을 바꿀 수 있나": "what-to-change-from-numbers",
+    "21 EBITDA가 좋아 보일 때 의심할 자리": "when-ebitda-looks-too-good",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
@@ -154,6 +155,8 @@ def main():
     posts = []
     for name, slug in SLUG.items():
         p = SRC + name + ".md"
+        if not os.path.exists(p):              # 발행한 원고는 과거/ 로 옮겨 둔다
+            p = SRC + "과거/" + name + ".md"
         md = io.open(p, encoding="utf-8").read()
         title = re.search(r"^# (.+)$", md, flags=re.M).group(1).strip()
         # **발행일이 있으면 그것을 쓴다** - 독자는 이 날짜를 발행일로 읽는다.
