@@ -42,6 +42,7 @@ SLUG = {
     "19 결제 수수료는 왜 조용히 오르나": "why-payment-fees-creep-up",
     "20 숫자를 보고 무엇을 바꿀 수 있나": "what-to-change-from-numbers",
     "21 EBITDA가 좋아 보일 때 의심할 자리": "when-ebitda-looks-too-good",
+    "22 EBITDA와 영업현금흐름은 왜 벌어지나": "ebitda-vs-operating-cash-flow",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
