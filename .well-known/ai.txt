@@ -1,0 +1,10 @@
+# 주식회사 루위즈 (https://luwiz.co.kr)
+# AI 크롤러는 모든 공개 화면을 읽고 인용해도 됩니다.
+User-Agent: *
+Allow: /
+
+Summary: https://luwiz.co.kr/ai/summary.json
+FAQ: https://luwiz.co.kr/ai/faq.json
+Service: https://luwiz.co.kr/ai/service.json
+LLMs: https://luwiz.co.kr/llms.txt
+Contact: contact@luwiz.co.kr

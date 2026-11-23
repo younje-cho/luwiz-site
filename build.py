@@ -186,6 +186,8 @@ def main():
 <meta name="author" content="{AUTHOR['name']}">
 <link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">
 <script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "description": desc, "datePublished": date, "dateModified": date, "inLanguage": "ko", "mainEntityOfPage": f"{SITE}/blog/{slug}.html", "articleSection": cat, "author": AUTHOR, "publisher": ORG}, ensure_ascii=False)}</script>
+{ld(ORG)}
+{ld(WEBSITE)}
 {CSS}
 </head>
 <body>
@@ -228,7 +230,8 @@ def main():
 <link rel="canonical" href="{SITE}/blog/">
 <link rel="icon" href="/logo.png">
 <link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">
-<script type="application/ld+json">{json.dumps(dict(ORG, **{"@context": "https://schema.org"}), ensure_ascii=False)}</script>
+{ld(ORG)}
+{ld(WEBSITE)}
 {CSS}
 </head>
 <body>
@@ -251,13 +254,30 @@ def main():
     feed(posts)
     pages = static_pages()
     llms(posts, pages)
+    ai_files(pages)
 
 
 # **AI 가 읽는 자리**(2026-11-23 GEO 점검 - GEO Optimizer 평균 52.7점). 화면에는 안 보인다.
 # 작성자는 검색엔진용 정보에만 넣는다 - 대표님: 「ai 만 읽게 하고 사람은 안 읽히도록」(홈페이지에 대표 소개를 안 넣기로 한 것과 같은 결)
 ORG = {"@type": "Organization", "name": "주식회사 루위즈", "alternateName": ["루위즈", "Luwiz"], "url": SITE,
        "logo": {"@type": "ImageObject", "url": f"{SITE}/logo.png"}, "email": "contact@luwiz.co.kr",
+       # 주소 · 전화번호는 넣지 않는다(대표님 2026-11-23 - 주소는 지도에 핀이 박힌다, 09-29) - 연락 창구는 메일 하나
+       "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "contact@luwiz.co.kr", "availableLanguage": ["ko"]},
        "sameAs": ["https://blog.naver.com/luwiz"]}
+WEBSITE = {"@type": "WebSite", "name": "주식회사 루위즈", "url": SITE + "/", "inLanguage": "ko", "publisher": {"@type": "Organization", "name": "주식회사 루위즈"}}
+
+
+def ld(obj):
+    return f'<script type="application/ld+json">{json.dumps(dict(obj, **{"@context": "https://schema.org"}), ensure_ascii=False)}</script>'
+
+
+def faq_ld(t):
+    """화면에 있는 자주 묻는 질문(<details><summary>질문</summary><p>답</p>)을 FAQPage 로. 없으면 빈 글."""
+    qa = [(html.unescape(re.sub(r"<[^>]+>", "", q)).strip(), html.unescape(re.sub(r"<[^>]+>", "", a)).strip())
+          for q, a in re.findall(r"(?s)<summary>(.*?)</summary>\s*<p>(.*?)</p>", t)]
+    if not qa:
+        return ""
+    return ld({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]})
 AUTHOR = {"@type": "Person", "name": "조윤제", "jobTitle": "대표", "worksFor": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE},
           "sameAs": ["https://www.linkedin.com/in/younjecho"]}
 FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">'
@@ -291,10 +311,16 @@ def static_pages():
         add = ""
         if FEED_LINK not in t:
             add += FEED_LINK + "\n"
-        if '"@type": "Organization"' not in t and '"@type":"Organization"' not in t:
-            add += f'<script type="application/ld+json">{json.dumps(dict(ORG, **{"@context": "https://schema.org"}), ensure_ascii=False)}</script>\n'
-        if rel == "index.html" and '"@type": "WebSite"' not in t:
-            add += f'<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "WebSite", "name": "주식회사 루위즈", "url": SITE + "/", "inLanguage": "ko"}, ensure_ascii=False)}</script>\n'
+        # 회사 정보는 늘 최신 ORG 로 갈아 끼운다(한 줄짜리 ld 만 - 첫 화면의 손으로 쓴 여러 줄 회사 정보는 그대로 두고 연락 창구만 더한다)
+        t = re.sub(r'<script type="application/ld\+json">\{"@type": "Organization".*?</script>\n', "", t)
+        if '\n  "@type": "Organization"' not in t:          # 첫 화면의 손으로 쓴 여러 줄 회사 정보가 없으면
+            add += ld(ORG) + "\n"
+        elif '"contactPoint"' not in t:
+            t = t.replace('"email": "contact@luwiz.co.kr",\n', '"email": "contact@luwiz.co.kr",\n  "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "contact@luwiz.co.kr", "availableLanguage": ["ko"]},\n', 1)
+        if '"@type": "WebSite"' not in t:
+            add += ld(WEBSITE) + "\n"
+        if '"FAQPage"' not in t:
+            add += (faq_ld(t) + "\n") if faq_ld(t) else ""
         t = t.replace('alt="루위즈"', 'alt="주식회사 루위즈 로고"')
         if add:
             t = t.replace("</head>", add + "</head>", 1)
@@ -318,6 +344,43 @@ def llms(posts, pages):
     body += "## 연락\n- contact@luwiz.co.kr\n"
     io.open(os.path.join(HERE, "llms.txt"), "w", encoding="utf-8", newline="\n").write(body)
     print("    llms.txt · blog/feed.xml")
+
+
+# AI 검색이 사이트를 읽는 길(GEO). 허락 범위는 그대로 - 전에도 모두 허용(User-agent: *)이었고, 이름을 적어 분명히 할 뿐이다
+AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User",
+           "Googlebot", "Google-Extended", "Bingbot", "Applebot", "Applebot-Extended", "DuckAssistBot", "meta-externalagent", "Amazonbot",
+           "CCBot", "cohere-ai"]
+
+
+def robots_txt():
+    return "".join(f"User-agent: {b}\nAllow: /\n\n" for b in AI_BOTS) + "User-agent: *\nAllow: /\n\nSitemap: " + SITE + "/sitemap.xml\n"
+
+
+def ai_files(pages):
+    """/.well-known/ai.txt · /ai/summary.json · /ai/faq.json · /ai/service.json - AI 에게 주는 회사 요약. 화면에 있는 말로만 만든다."""
+    home_ = next(p for p in pages if p[0] == "index.html")
+    t = io.open(os.path.join(HERE, "index.html"), encoding="utf-8").read()
+    qa = [{"question": html.unescape(re.sub(r"<[^>]+>", "", q)).strip(), "answer": html.unescape(re.sub(r"<[^>]+>", "", a)).strip()}
+          for q, a in re.findall(r"(?s)<summary>(.*?)</summary>\s*<p>(.*?)</p>", t)]
+    os.makedirs(os.path.join(HERE, ".well-known"), exist_ok=True)
+    os.makedirs(os.path.join(HERE, "ai"), exist_ok=True)
+
+    def w(rel, body):
+        io.open(os.path.join(HERE, *rel.split("/")), "w", encoding="utf-8", newline="\n").write(body)
+
+    def j(o):
+        return json.dumps(o, ensure_ascii=False, indent=2) + "\n"
+
+    w(".well-known/ai.txt", f"# 주식회사 루위즈 ({SITE})\n# AI 크롤러는 모든 공개 화면을 읽고 인용해도 됩니다.\nUser-Agent: *\nAllow: /\n\n"
+                            f"Summary: {SITE}/ai/summary.json\nFAQ: {SITE}/ai/faq.json\nService: {SITE}/ai/service.json\n"
+                            f"LLMs: {SITE}/llms.txt\nContact: contact@luwiz.co.kr\n")
+    w("ai/summary.json", j({"name": "주식회사 루위즈", "alternateName": ["루위즈", "Luwiz"], "url": SITE, "description": home_[2],
+                           "language": "ko", "email": "contact@luwiz.co.kr", "about": f"{SITE}/about/", "blog": f"{SITE}/blog/"}))
+    w("ai/faq.json", j({"name": "주식회사 루위즈 자주 묻는 질문", "url": f"{SITE}/", "faq": qa}))
+    w("ai/service.json", j({"name": "주식회사 루위즈", "description": home_[2], "url": SITE,
+                           "services": [{"name": tt.split(" — ")[0], "description": d, "url": u} for r, tt, d, u in pages
+                                        if r.startswith(("solution/", "product/")) and not r.endswith("index.html")]}))
+    print("    .well-known/ai.txt · ai/summary.json · ai/faq.json · ai/service.json")
 
 
 def home(posts, n=4):
@@ -367,7 +430,7 @@ def sitemap():
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "\n</urlset>\n")
     io.open(os.path.join(HERE, "robots.txt"), "w", encoding="utf-8", newline="\n").write(
-        "User-agent: *\nAllow: /\n\nSitemap: " + SITE + "/sitemap.xml\n")
+        robots_txt())
     print("    sitemap.xml  주소 %d개 · robots.txt" % len(rows))
 
 

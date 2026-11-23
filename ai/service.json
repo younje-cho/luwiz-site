@@ -1,0 +1,62 @@
+{
+  "name": "주식회사 루위즈",
+  "description": "프로그램만 드리지 않습니다. 재무 전문가가 회사에 맞게 짜고 돌아가게 만듭니다. 자체 기장부터 연결재무제표, 현금흐름표, 관리회계, 자금일보까지 2달 안에 구축하고, 100개가 넘는 검산식이 숫자를 맞춥니다.",
+  "url": "https://luwiz.co.kr",
+  "services": [
+    {
+      "name": "통장, 법인카드 자동 분개",
+      "description": "들어온 통장 · 법인카드 줄에 계정이 미리 골라져 있습니다. 확인하고 Enter 를 누르면 장부에 들어갑니다. 누가 언제 확정했는지 줄마다 남습니다.",
+      "url": "https://luwiz.co.kr/product/bank-card-journal.html"
+    },
+    {
+      "name": "현금흐름표 작성: 간접법, 손익계산서와 대조",
+      "description": "분개장이나 재무상태표 · 손익계산서에서 간접법으로 현금흐름표를 만듭니다. 손익계산서와 대조해서 안 맞으면 어디가 틀렸는지 알려 줍니다.",
+      "url": "https://luwiz.co.kr/product/cash-flow-statement.html"
+    },
+    {
+      "name": "연결결산: 해외 법인 환산, 내부거래 제거, 연결재무제표 작성",
+      "description": "여러 법인을 하나로 합칩니다. 해외사업환산 · 투자자본상계 · 내부거래제거 · 비지배 배분까지. 연결재무상태표 · 손익계산서 · 현금흐름표 · 자본변동표가 같이 나옵니다.",
+      "url": "https://luwiz.co.kr/product/consolidation.html"
+    },
+    {
+      "name": "자금일보: 통장, 법인카드가 매일 들어오는",
+      "description": "통장과 법인카드가 매일 자동으로 들어옵니다. 엑셀에 옮겨 적지 않아도 자금일보가 만들어집니다. 지급 일정과 차입금 상환까지 넣어 다음 달 잔액을 내다봅니다.",
+      "url": "https://luwiz.co.kr/product/daily-cash-report.html"
+    },
+    {
+      "name": "증빙 대사: 계정별 잔액 증빙과 빠진 증빙 알림",
+      "description": "계정마다 무엇으로 잔액을 증명하는지 정해 두고, 그 달 증빙이 없거나 금액이 다르면 먼저 알려 줍니다. 4대보험 · 원천세 · 통장 잔액까지 한 화면에서 맞춥니다.",
+      "url": "https://luwiz.co.kr/product/evidence-reconciliation.html"
+    },
+    {
+      "name": "관리회계, 원가계산: 사업부별 이익과 제품별 원가",
+      "description": "사업부별 이익과 제품별 원가를 봅니다. 분개에 사업부가 붙고, 공통비와 제조간접비는 기준을 정해 나눕니다. 원가계산부터 사업계획, 계획 대비 실적까지.",
+      "url": "https://luwiz.co.kr/product/management-accounting.html"
+    },
+    {
+      "name": "월 마감: 자료, 할 일, 승인을 한 화면에",
+      "description": "받을 자료 · 할 일 · 담당 · 승인이 한 화면에 모입니다. 이번 달 마감이 어디까지 왔는지 보이고, 승인한 뒤 숫자가 바뀌면 바로 알려 줍니다.",
+      "url": "https://luwiz.co.kr/product/month-end-close.html"
+    },
+    {
+      "name": "급여대장: 소득세, 4대보험 계산과 급여 분개",
+      "description": "이름, 금액, 부양가족 수만 넣으면 소득세와 4대보험이 계산됩니다. 급여 분개, 은행 이체 파일, 급여명세서, 원천세 신고까지 한 번에 이어집니다.",
+      "url": "https://luwiz.co.kr/product/payroll.html"
+    },
+    {
+      "name": "부가세 대사: 장부, 홈택스, 신고서 비교",
+      "description": "장부, 홈택스 자료, 부가세 신고서를 나란히 놓고 매출세액과 매입세액이 어디서 다른지 보여 줍니다. 분기 말에 몰아서 맞추지 않고 매달 봅니다.",
+      "url": "https://luwiz.co.kr/product/vat-reconciliation.html"
+    },
+    {
+      "name": "연결재무제표 구축: 자회사가 있는 회사의 연결과 관리회계",
+      "description": "자회사가 있는 회사의 연결재무제표와 관리회계를 재무 전문가가 직접 회사 방식대로 짜고, 매달 돌아가게 만듭니다. 재무팀의 결산과 보고 일을 줄입니다.",
+      "url": "https://luwiz.co.kr/solution/consolidation-build.html"
+    },
+    {
+      "name": "자체 기장 프로그램: 통장, 카드, 홈택스 자료로 회사 안에서 쓰는 장부",
+      "description": "세무사에게 맡기던 장부를 회사 안에서 씁니다. 통장, 카드, 홈택스 자료를 받아 오면 계정이 미리 골라져 있습니다. 세무조정과 신고는 지금처럼 세무사에게 맡깁니다.",
+      "url": "https://luwiz.co.kr/solution/self-bookkeeping.html"
+    }
+  ]
+}
