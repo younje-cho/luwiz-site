@@ -263,7 +263,7 @@ ORG = {"@type": "Organization", "name": "주식회사 루위즈", "alternateName
        "logo": {"@type": "ImageObject", "url": f"{SITE}/logo.png"}, "email": "contact@luwiz.co.kr",
        # 주소 · 전화번호는 넣지 않는다(대표님 2026-11-23 - 주소는 지도에 핀이 박힌다, 09-29) - 연락 창구는 메일 하나
        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "contact@luwiz.co.kr", "availableLanguage": ["ko"]},
-       "sameAs": ["https://blog.naver.com/luwiz"]}
+       "sameAs": ["https://www.linkedin.com/company/luwiz-kr/", "https://blog.naver.com/luwiz"]}
 WEBSITE = {"@type": "WebSite", "name": "주식회사 루위즈", "url": SITE + "/", "inLanguage": "ko", "publisher": {"@type": "Organization", "name": "주식회사 루위즈"}}
 
 
@@ -278,7 +278,7 @@ def faq_ld(t):
     if not qa:
         return ""
     return ld({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]})
-AUTHOR = {"@type": "Person", "name": "조윤제", "jobTitle": "대표", "worksFor": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE},
+AUTHOR = {"@type": "Person", "name": "조윤제", "jobTitle": "대표, 공인회계사", "hasCredential": {"@type": "EducationalOccupationalCredential", "credentialCategory": "공인회계사"}, "worksFor": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE},
           "sameAs": ["https://www.linkedin.com/in/younjecho"]}
 FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">'
 
