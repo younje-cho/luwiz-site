@@ -66,7 +66,7 @@ CSS = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pr
 
 TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="주식회사 루위즈 로고"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><span class="menu"><a href="/#doors">솔루션</a><span class="sub"><a href="/solution/self-bookkeeping.html">자체 기장</a><a href="/solution/consolidation-build.html">연결재무제표 구축</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav></div>"""
 FOOTER = """<hr>
-  <footer><strong>주식회사 루위즈</strong><br>사업자등록번호 333-87-04299<br><a href="/notice/">공고</a><br><a href="/privacy/">개인정보 처리방침</a></footer>"""
+  <footer><strong>주식회사 루위즈</strong><br>사업자등록번호 333-87-04299<br><a href="/about/">회사 소개</a><br><a href="/notice/">공고</a><br><a href="/privacy/">개인정보 처리방침</a></footer>"""
 
 
 def inline(t):
@@ -284,7 +284,7 @@ def static_pages():
     """손으로 만든 화면(첫 화면 · 제품 · 솔루션 · 공고 · 개인정보)에 회사 정보와 RSS 연결을 붙인다. 이미 있으면 그대로.
     그 화면들의 제목 · 설명을 돌려준다(llms.txt 재료)."""
     out = []
-    for rel in ["index.html"] + sorted(f"{d}/{f}" for d in ("product", "solution", "notice", "privacy")
+    for rel in ["index.html"] + sorted(f"{d}/{f}" for d in ("about", "product", "solution", "notice", "privacy")
                                        for f in os.listdir(os.path.join(HERE, d)) if f.endswith(".html")):
         p = os.path.join(HERE, *rel.split("/"))
         t = io.open(p, encoding="utf-8").read()
