@@ -10,6 +10,7 @@
 """
 import html
 import io
+import json
 import os
 import re
 import shutil
@@ -182,6 +183,7 @@ def main():
 <meta property="og:type" content="article">
 <link rel="canonical" href="{SITE}/blog/{slug}.html">
 <link rel="icon" href="/logo.png">
+<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "description": desc, "datePublished": date, "dateModified": date, "inLanguage": "ko", "mainEntityOfPage": f"{SITE}/blog/{slug}.html", "articleSection": cat, "author": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE}, "publisher": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE, "logo": {"@type": "ImageObject", "url": f"{SITE}/logo.png"}}}, ensure_ascii=False)}</script>
 {CSS}
 </head>
 <body>
@@ -189,7 +191,7 @@ def main():
   {TOP}
   <article>
     <h1>{html.escape(title)}</h1>
-    <p class="date">{html.escape(cat)} · {date}</p>
+    <p class="date">{html.escape(cat)} · <time datetime="{date}">{date}</time></p>
 {body_of(md)}
   </article>
   <hr>
