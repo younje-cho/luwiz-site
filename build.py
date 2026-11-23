@@ -43,6 +43,7 @@ SLUG = {
     "20 숫자를 보고 무엇을 바꿀 수 있나": "what-to-change-from-numbers",
     "21 EBITDA가 좋아 보일 때 의심할 자리": "when-ebitda-looks-too-good",
     "22 EBITDA와 영업현금흐름은 왜 벌어지나": "ebitda-vs-operating-cash-flow",
+    "23 친구에게 빌려준 1만원은 어디에 적을까": "double-entry-bookkeeping-basics",
 }
 
 # 글 목록의 갈래 - 네이버 블로그 카테고리와 같은 이름 · 같은 차례
