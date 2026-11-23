@@ -64,7 +64,7 @@ CSS = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pr
 <link rel="stylesheet" href="/style.css">
 <script src="/inquiry.js" defer></script>"""
 
-TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="루위즈"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><span class="menu"><a href="/#doors">솔루션</a><span class="sub"><a href="/solution/self-bookkeeping.html">자체 기장</a><a href="/solution/consolidation-build.html">연결재무제표 구축</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav></div>"""
+TOP = """<div class="top"><a class="brand" href="/"><img src="/logo.png" alt="주식회사 루위즈 로고"><span>주식회사 루위즈</span></a><nav><span class="menu"><a href="/product/">제품</a><span class="sub"><a href="/product/#flow">이어지는 흐름</a><a href="/product/#close">결산</a><a href="/product/#consol">연결</a><a href="/product/#tax">세금</a><a href="/product/#fpa">관리회계</a><a href="/product/#cash">자금</a><a href="/product/#contract">계약</a><a href="/product/#hr">인사</a><a href="/product/#ir">IR</a><a href="/product/#ai">AI</a></span></span><span class="menu"><a href="/#doors">솔루션</a><span class="sub"><a href="/solution/self-bookkeeping.html">자체 기장</a><a href="/solution/consolidation-build.html">연결재무제표 구축</a></span></span><a href="/blog/">글</a><a class="btn" href="mailto:contact@luwiz.co.kr">문의하기</a></nav></div>"""
 FOOTER = """<hr>
   <footer><strong>주식회사 루위즈</strong><br>사업자등록번호 333-87-04299<br><a href="/notice/">공고</a><br><a href="/privacy/">개인정보 처리방침</a></footer>"""
 
@@ -183,7 +183,9 @@ def main():
 <meta property="og:type" content="article">
 <link rel="canonical" href="{SITE}/blog/{slug}.html">
 <link rel="icon" href="/logo.png">
-<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "description": desc, "datePublished": date, "dateModified": date, "inLanguage": "ko", "mainEntityOfPage": f"{SITE}/blog/{slug}.html", "articleSection": cat, "author": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE}, "publisher": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE, "logo": {"@type": "ImageObject", "url": f"{SITE}/logo.png"}}}, ensure_ascii=False)}</script>
+<meta name="author" content="{AUTHOR['name']}">
+<link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">
+<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "description": desc, "datePublished": date, "dateModified": date, "inLanguage": "ko", "mainEntityOfPage": f"{SITE}/blog/{slug}.html", "articleSection": cat, "author": AUTHOR, "publisher": ORG}, ensure_ascii=False)}</script>
 {CSS}
 </head>
 <body>
@@ -225,6 +227,8 @@ def main():
 <meta property="og:description" content="연결결산 · 월 마감 · FP&amp;A에 대해 쓴 글입니다.">
 <link rel="canonical" href="{SITE}/blog/">
 <link rel="icon" href="/logo.png">
+<link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">
+<script type="application/ld+json">{json.dumps(dict(ORG, **{"@context": "https://schema.org"}), ensure_ascii=False)}</script>
 {CSS}
 </head>
 <body>
@@ -244,6 +248,77 @@ def main():
     for t, s, d, c in posts:
         print(f"    /blog/{s}.html   {c} · {t}")
     sitemap()
+    feed(posts)
+    pages = static_pages()
+    llms(posts, pages)
+
+
+# **AI 가 읽는 자리**(2026-11-23 GEO 점검 - GEO Optimizer 평균 52.7점). 화면에는 안 보인다.
+# 작성자는 검색엔진용 정보에만 넣는다 - 대표님: 「ai 만 읽게 하고 사람은 안 읽히도록」(홈페이지에 대표 소개를 안 넣기로 한 것과 같은 결)
+ORG = {"@type": "Organization", "name": "주식회사 루위즈", "alternateName": ["루위즈", "Luwiz"], "url": SITE,
+       "logo": {"@type": "ImageObject", "url": f"{SITE}/logo.png"}, "email": "contact@luwiz.co.kr",
+       "sameAs": ["https://blog.naver.com/luwiz"]}
+AUTHOR = {"@type": "Person", "name": "조윤제", "jobTitle": "대표", "worksFor": {"@type": "Organization", "name": "주식회사 루위즈", "url": SITE},
+          "sameAs": ["https://www.linkedin.com/in/younjecho"]}
+FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="루위즈 글" href="/blog/feed.xml">'
+
+
+def feed(posts):
+    """blog/feed.xml - 새 글 알림(RSS). AI 검색과 구독기가 새 글을 찾는 길."""
+    import datetime
+    items = []
+    for t, s, d, c in sorted(posts, key=lambda p: p[2], reverse=True):
+        try:
+            when = datetime.datetime.strptime(d, "%Y-%m-%d").strftime("%a, %d %b %Y 09:00:00 +0900")
+        except ValueError:
+            when = ""
+        items.append(f"  <item><title>{html.escape(t)}</title><link>{SITE}/blog/{s}.html</link>"
+                     f"<guid>{SITE}/blog/{s}.html</guid><category>{html.escape(c)}</category><pubDate>{when}</pubDate></item>")
+    io.open(os.path.join(OUT, "feed.xml"), "w", encoding="utf-8", newline="\n").write(
+        '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>\n'
+        f"  <title>루위즈 글</title><link>{SITE}/blog/</link><description>연결결산, 월 마감, FP&amp;A에 대해 쓴 글</description><language>ko</language>\n"
+        + "\n".join(items) + "\n</channel></rss>\n")
+
+
+def static_pages():
+    """손으로 만든 화면(첫 화면 · 제품 · 솔루션 · 공고 · 개인정보)에 회사 정보와 RSS 연결을 붙인다. 이미 있으면 그대로.
+    그 화면들의 제목 · 설명을 돌려준다(llms.txt 재료)."""
+    out = []
+    for rel in ["index.html"] + sorted(f"{d}/{f}" for d in ("product", "solution", "notice", "privacy")
+                                       for f in os.listdir(os.path.join(HERE, d)) if f.endswith(".html")):
+        p = os.path.join(HERE, *rel.split("/"))
+        t = io.open(p, encoding="utf-8").read()
+        add = ""
+        if FEED_LINK not in t:
+            add += FEED_LINK + "\n"
+        if '"@type": "Organization"' not in t and '"@type":"Organization"' not in t:
+            add += f'<script type="application/ld+json">{json.dumps(dict(ORG, **{"@context": "https://schema.org"}), ensure_ascii=False)}</script>\n'
+        if rel == "index.html" and '"@type": "WebSite"' not in t:
+            add += f'<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "WebSite", "name": "주식회사 루위즈", "url": SITE + "/", "inLanguage": "ko"}, ensure_ascii=False)}</script>\n'
+        t = t.replace('alt="루위즈"', 'alt="주식회사 루위즈 로고"')
+        if add:
+            t = t.replace("</head>", add + "</head>", 1)
+        io.open(p, "w", encoding="utf-8", newline="\n").write(t)
+        title = html.unescape((re.search(r"<title>(.*?)</title>", t, re.S) or [None, ""])[1]).strip()
+        desc = html.unescape((re.search(r'<meta name="description" content="([^"]*)"', t) or [None, ""])[1])
+        url = SITE + "/" + (rel[:-len("index.html")] if rel.endswith("index.html") else rel)
+        out.append((rel, title, desc, url))
+    return out
+
+
+def llms(posts, pages):
+    """/llms.txt - AI 에게 주는 사이트 안내(제목 · 한 줄 설명 · 주소). 화면 제목 · 설명과 글 목록에서 만든다."""
+    def sec(name, rows):
+        return f"## {name}\n" + "\n".join(f"- [{t}]({u}): {d}" if d else f"- [{t}]({u})" for t, u, d in rows) + "\n"
+    home_ = next(p for p in pages if p[0] == "index.html")
+    body = f"# 주식회사 루위즈\n\n> {home_[2]}\n\n"
+    body += sec("솔루션", [(t, u, d) for r, t, d, u in pages if r.startswith("solution/")]) + "\n"
+    body += sec("제품", [(t, u, d) for r, t, d, u in pages if r.startswith("product/")]) + "\n"
+    body += sec("글", [(t, f"{SITE}/blog/{s}.html", "") for t, s, d, c in sorted(posts, key=lambda p: p[2], reverse=True)]) + "\n"
+    body += "## 연락\n- contact@luwiz.co.kr\n"
+    io.open(os.path.join(HERE, "llms.txt"), "w", encoding="utf-8", newline="\n").write(body)
+    print("    llms.txt · blog/feed.xml")
+
 
 def home(posts, n=4):
     """**첫 화면 글 목록** - 갈래마다 최신 n편(2026-11-13 대표님: 「카테고리 2개로 나눠서」).
