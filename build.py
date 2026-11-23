@@ -176,9 +176,9 @@ def main():
 <meta charset="utf-8">
 {GA}
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)} — 루위즈</title>
+<title>주식회사 루위즈 — {html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
-<meta property="og:title" content="{html.escape(title)}">
+<meta property="og:title" content="주식회사 루위즈 — {html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:type" content="article">
 <link rel="canonical" href="{SITE}/blog/{slug}.html">
@@ -223,9 +223,9 @@ def main():
 <meta charset="utf-8">
 {GA}
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>회계 이야기, 숫자로 보는 사업 — 주식회사 루위즈</title>
+<title>주식회사 루위즈 — 회계 이야기, 숫자로 보는 사업</title>
 <meta name="description" content="연결결산, 월 마감, 현금흐름표, 관리회계, 마케팅 숫자를 실무 예시로 풀어 쓴 루위즈의 글입니다. 회계 이야기와 숫자로 보는 사업 두 갈래로 나눴습니다.">
-<meta property="og:title" content="회계 이야기, 숫자로 보는 사업 — 주식회사 루위즈">
+<meta property="og:title" content="주식회사 루위즈 — 회계 이야기, 숫자로 보는 사업">
 <meta property="og:description" content="연결결산, 월 마감, 현금흐름표, 관리회계, 마케팅 숫자를 실무 예시로 풀어 쓴 루위즈의 글입니다. 회계 이야기와 숫자로 보는 사업 두 갈래로 나눴습니다.">
 <link rel="canonical" href="{SITE}/blog/">
 <link rel="icon" href="/logo.png">
@@ -378,7 +378,7 @@ def ai_files(pages):
                            "language": "ko", "email": "contact@luwiz.co.kr", "about": f"{SITE}/about/", "blog": f"{SITE}/blog/"}))
     w("ai/faq.json", j({"name": "주식회사 루위즈 자주 묻는 질문", "url": f"{SITE}/", "faq": qa}))
     w("ai/service.json", j({"name": "주식회사 루위즈", "description": home_[2], "url": SITE,
-                           "services": [{"name": tt.split(" — ")[0], "description": d, "url": u} for r, tt, d, u in pages
+                           "services": [{"name": tt.split(" — ")[-1], "description": d, "url": u} for r, tt, d, u in pages
                                         if r.startswith(("solution/", "product/")) and not r.endswith("index.html")]}))
     print("    .well-known/ai.txt · ai/summary.json · ai/faq.json · ai/service.json")
 
