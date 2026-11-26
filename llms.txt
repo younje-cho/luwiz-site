@@ -19,6 +19,7 @@
 - [주식회사 루위즈 — 부가세 대사: 장부, 홈택스, 신고서 비교](https://luwiz.co.kr/product/vat-reconciliation.html): 장부, 홈택스 자료, 부가세 신고서를 나란히 놓고 매출세액과 매입세액이 어디서 다른지 보여 줍니다. 분기 말에 몰아서 맞추지 않고 매달 봅니다.
 
 ## 글
+- [넉 달이면 돌아오는 광고비가 통장을 아홉 달 비우는 이유](https://luwiz.co.kr/blog/cac-payback-cash-gap.html)
 - [친구에게 빌려준 1만원은 어디에 적을까](https://luwiz.co.kr/blog/double-entry-bookkeeping-basics.html)
 - [EBITDA와 영업현금흐름은 왜 벌어지나](https://luwiz.co.kr/blog/ebitda-vs-operating-cash-flow.html)
 - [EBITDA가 좋아 보일 때 의심할 자리](https://luwiz.co.kr/blog/when-ebitda-looks-too-good.html)
